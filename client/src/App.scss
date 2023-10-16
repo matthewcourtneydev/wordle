@@ -1,0 +1,132 @@
+html, body {
+  margin:0px;
+  height:100%;
+}
+
+.App {
+
+  .page {
+    background-color: grey;
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    .page-content {
+      max-width: 500px;
+      height: 100%;
+      background-color: yellow;
+      margin: auto;
+      text-align: center;
+      padding-top: 120px;
+    }
+  }
+
+  .home-page {
+    .logo {
+      background-color: black;
+      height: 70px;
+      width: 70px;
+      border-radius: 50%;
+      margin: auto;
+    }
+
+    h2 {
+      width: 60%;
+      margin: auto;
+      font-weight: 100;
+    }
+
+    .button-container {
+      width: 60%;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      margin-top: 30px;
+
+      a {
+        background: none;
+        padding: 15px;
+        border-radius: 30px;
+        width: 70%;
+        margin: 7px auto;
+        border: 2px solid black;
+        text-decoration: none;
+        color: inherit
+      }
+
+      #play {
+        background-color: black;
+        color: white;
+      }
+    }
+  }
+
+  .game-page {
+
+    .game-window {
+      height: 60%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding-top: 55px;
+
+      .guess-row {
+        width: 85%;
+        margin: 0 auto;
+        min-height: 60px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        gap: 5px;
+
+        .box {
+          height: 55px;
+          width: auto;
+          min-width: 55px;
+          border: solid 2px black;
+          text-align: center;
+          font-size: 20px;
+        }
+      }
+
+    }
+
+    .keyboard-container {
+      height: 33%;
+      width: 100%;
+      position: fixed;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+
+      .row {
+        width: 95%;
+        height: 30%;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+
+        button {
+          height: 100%;
+          min-width: 32px;
+        }
+
+        #backspace {
+          font-size: 1.3em;
+          min-width: 50px;
+        }
+
+        #letter-Enter {
+          min-width: 50px;
+        }
+      }
+    }
+  }
+}
