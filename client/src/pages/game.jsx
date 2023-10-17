@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { BsBackspace } from "react-icons/bs";
 import GuessRow from "../components/guess-row";
+import Modal from "../components/modal";
+import Nav from "../components/nav";
 import '../animate.css'
 
 const Game = () => {
@@ -20,8 +22,15 @@ const Game = () => {
   const [currentUserWord, setCurrentUserWord] = useState([]);
   const [currentGuessIndex, setCurrentGuessIndex] = useState(0);
   const [currentAttempt, setCurrentAttempt] = useState(1);
+  const [modalHidden, setModalHidden] = useState(false);
 
   const testWord = ['H', 'E', 'L', 'L', 'O']
+
+  function closeModal() {
+    setModalHidden((prevSetModalHidden) => {
+        return !prevSetModalHidden;
+    })
+  }
 
   function increaseIndex() {
     setCurrentGuessIndex((prevCurrentGuessIndex) => {
@@ -45,6 +54,9 @@ const Game = () => {
     console.log(currentAttempt)
   }, [currentAttempt]);
 
+  useEffect(() => {
+    console.log(modalHidden)
+  }, [modalHidden]);
 
   function handleEnter() {
     console.log(currentGuessIndex);
@@ -63,18 +75,27 @@ const Game = () => {
 
           let correctCount = 0;
        guessArr.slice(0, -1).forEach((guess, i) => {
+        console.log(guess.innerHTML)
         if (guess.innerHTML === testWord[i]) {
             correctCount ++;
             setTimeout(function () {
-                guess.classList.add('correct-flip')
+                guess.classList.add('correct-flip');
+                document.getElementById(`letter-${guess.innerHTML}`).classList.add('correct');
             }, (500 * (i + 1)));
         } else if (testWord.includes(guess.innerHTML)) {
             setTimeout(function () {
                 guess.classList.add('almost-flip')
+                if(!document.getElementById(`letter-${guess.innerHTML}`).classList.contains('correct')) {
+                  document.getElementById(`letter-${guess.innerHTML}`).classList.add('almost');
+                }
+                
             }, (500 * (i + 1)));
         } else {
             setTimeout(function () {
-                guess.classList.add('wrong-flip')
+                guess.classList.add('wrong-flip');
+                if(!document.getElementById(`letter-${guess.innerHTML}`).classList.contains('correct') || !document.getElementById(`letter-${guess.innerHTML}`).classList.includes('almost')) {
+                  document.getElementById(`letter-${guess.innerHTML}`).classList.add('wrong');
+                }
             }, (500 * (i + 1)));
         }
        })
@@ -117,6 +138,8 @@ const Game = () => {
 
   return (
     <div className="game-page page">
+      {modalHidden ? <Nav isModalClosed={modalHidden} closeModal={closeModal} /> : <></>}
+    <Modal isClosed={modalHidden} closeModal={closeModal}/>
       <div className="page-content">
         <div className="game-window">
           {guessRowsArr.map((attempt, i) => {
