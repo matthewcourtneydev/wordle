@@ -29,11 +29,22 @@ const Game = () => {
     });
   }
 
+  function increaseAttempt() {
+    setCurrentAttempt((prevCurrentAttempt) => {
+        return prevCurrentAttempt + 1;
+    })
+  }
+
   function decreaseIndex() {
     setCurrentGuessIndex((prevCurrentGuessIndex) => {
       return prevCurrentGuessIndex - 1;
     });
   }
+
+  useEffect(() => {
+    console.log(currentAttempt)
+  }, [currentAttempt]);
+
 
   function handleEnter() {
     console.log(currentGuessIndex);
@@ -50,9 +61,10 @@ const Game = () => {
             ...document.getElementById(`row-guess-${currentAttempt}`).children,
           ];
 
-
+          let correctCount = 0;
        guessArr.slice(0, -1).forEach((guess, i) => {
         if (guess.innerHTML === testWord[i]) {
+            correctCount ++;
             setTimeout(function () {
                 guess.classList.add('correct-flip')
             }, (500 * (i + 1)));
@@ -67,6 +79,16 @@ const Game = () => {
         }
        })
 
+       if(correctCount === 5) {
+        console.log('game won')
+       } else if (currentAttempt === 6) {
+        console.log('game lost out of attempts')
+       } else {
+        console.log('game continues');
+        increaseAttempt();
+        setCurrentGuessIndex(0)
+        return;
+       }
     }
   }
 
