@@ -54,15 +54,15 @@ const Game = () => {
        guessArr.slice(0, -1).forEach((guess, i) => {
         if (guess.innerHTML === testWord[i]) {
             setTimeout(function () {
-                guess.classList.add('correct')
+                guess.classList.add('correct-flip')
             }, (500 * (i + 1)));
         } else if (testWord.includes(guess.innerHTML)) {
             setTimeout(function () {
-                guess.classList.add('almost')
+                guess.classList.add('almost-flip')
             }, (500 * (i + 1)));
         } else {
             setTimeout(function () {
-                guess.classList.add('wrong')
+                guess.classList.add('wrong-flip')
             }, (500 * (i + 1)));
         }
        })

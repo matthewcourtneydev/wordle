@@ -1,19 +1,79 @@
 .error-shake {
-    animation: rowShake 1s 1;
+  animation: rowShake 1s 1;
+}
+
+.correct-flip {
+    animation: correct-flip 1s 1;
+    animation-fill-mode: forwards;
+}
+
+.almost-flip {
+    animation: almost-flip 1s 1;
+    animation-fill-mode: forwards;
+}
+
+.wrong-flip {
+    animation: wrong-flip 1s 1;
+    animation-fill-mode: forwards;
 }
 
 
-@keyframes rowShake {
-    25% {
-      transform: translateX(10px);
-    }
+@keyframes correct-flip {
+    0% {
+        transform: scaleY(1);
+        background-color: inherit;
+    } 
     50% {
-      transform: translateX(-20px);
-    }
-    75% {
-      transform: translateX(20px);
+        transform: scaleY(0);
+        background-color: green;
     }
     100% {
-      transform: translateX(0px);
+        transform: scaleY(1);
+        background-color: green;
     }
+}
+
+@keyframes almost-flip {
+    0% {
+        transform: scaleY(1);
+        background-color: inherit;
+    } 
+    50% {
+        transform: scaleY(0);
+        background-color: yellowgreen;
+    }
+    100% {
+        transform: scaleY(1);
+        background-color: yellowgreen;
+    }
+}
+
+@keyframes wrong-flip {
+    0% {
+        transform: scaleY(1);
+        background-color: inherit;
+    } 
+    50% {
+        transform: scaleY(0);
+        background-color: grey;
+    }
+    100% {
+        transform: scaleY(1);
+        background-color: grey;
+    }
+}
+
+@keyframes rowShake {
+  25% {
+    transform: translateX(10px);
   }
+  50% {
+    transform: translateX(-20px);
+  }
+  75% {
+    transform: translateX(20px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
