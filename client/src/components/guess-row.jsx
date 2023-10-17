@@ -8,6 +8,7 @@ const GuessRow = (props) => {
             <div className="box guess-3"></div>
             <div className="box guess-4"></div>
             <div className="box guess-5"></div>
+            <div id={`error-row-${props.attempt}`} className={"error hide"}>Not enough letters</div>
         </div>
     );
 }

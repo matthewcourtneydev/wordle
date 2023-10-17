@@ -20,7 +20,24 @@ html, body {
       margin: auto;
       text-align: center;
       padding-top: 120px;
+      position: relative;
     }
+  }
+
+  .correct {
+    background-color: green;
+  }
+
+  .almost {
+    background-color: yellowgreen;
+  }
+
+  .wrong {
+    background-color: rgb(170, 170, 170);
+  }
+
+  .hide {
+    opacity: 0;
   }
 
   .home-page {
@@ -64,17 +81,16 @@ html, body {
   }
 
   .game-page {
-
+    overflow: hidden;
+    .page-content {
+      padding-top: 50px;
+    }
     .game-window {
-      height: 60%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      max-height: 500px;
       display: flex;
       flex-direction: column;
       gap: 5px;
-      padding-top: 55px;
+      max-width: 500px;
 
       .guess-row {
         width: 85%;
@@ -85,13 +101,29 @@ html, body {
         justify-content: space-around;
         gap: 5px;
 
+        .error {
+          background-color: blue;
+          border-radius: 5px;
+          position: absolute;
+          font-size: 15px;
+          margin-top: 10px;
+          padding: 10px 7px;
+        }
+
         .box {
           height: 55px;
           width: auto;
           min-width: 55px;
           border: solid 2px black;
           text-align: center;
-          font-size: 20px;
+          font-size: 30px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .value-present {
+          border: solid 2px orange;
         }
       }
 
@@ -100,10 +132,9 @@ html, body {
     .keyboard-container {
       height: 33%;
       width: 100%;
-      position: fixed;
-      bottom: 0;
       display: flex;
       flex-direction: column;
+      padding-top: 10px;
 
       .row {
         width: 95%;
@@ -116,6 +147,8 @@ html, body {
         button {
           height: 100%;
           min-width: 32px;
+          border-radius: 5px;
+          border: none;
         }
 
         #backspace {

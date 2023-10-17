@@ -1,0 +1,19 @@
+.error-shake {
+    animation: rowShake 1s 1;
+}
+
+
+@keyframes rowShake {
+    25% {
+      transform: translateX(10px);
+    }
+    50% {
+      transform: translateX(-20px);
+    }
+    75% {
+      transform: translateX(20px);
+    }
+    100% {
+      transform: translateX(0px);
+    }
+  }
