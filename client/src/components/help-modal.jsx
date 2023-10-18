@@ -2,7 +2,7 @@ import React from "react";
 import Example from "./example";
 import graphImg from "../imgs/graph.png";
 
-const HelpModal = ({ isClosed, closeModal }) => {
+const HelpModal = ({ isClosed, closeModal, isHighContrastMode }) => {
   return (
     <div className={isClosed ? "help-modal-layer closed" : "help-modal-layer"}>
       <div className="modal-content">
@@ -18,11 +18,11 @@ const HelpModal = ({ isClosed, closeModal }) => {
             </ul>
             <p>Examples</p>
             <div className="example-content">
-                <Example word={['W', 'E', 'A', 'R', 'Y']} index={0} color='correct' />
+                <Example word={['W', 'E', 'A', 'R', 'Y']} index={0} color={isHighContrastMode ? 'correct-contrast' : 'correct'} />
                 <p><strong>W</strong> is in the word and in the correct spot.</p>
             </div>
             <div className="example-content">
-                <Example word={['P', 'I', 'L', 'L', 'S']} index={1} color='almost' />
+                <Example word={['P', 'I', 'L', 'L', 'S']} index={1} color={isHighContrastMode ? 'almost-contrast' : 'almost'} />
                 <p><strong>I</strong> is in the word but in the wrong spot.</p>
             </div>
             <div className="example-content">

@@ -28,6 +28,7 @@ const Game = () => {
   const [isSettingsClosed, setIsSettingsClosed] = useState(true);
   const [isHelpClosed, setIsHelpClosed] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isHighContrastMode, setIsHighContrastMode] = useState(false)
 
   const testWord = ["H", "E", "L", "L", "O"];
 
@@ -41,6 +42,12 @@ const Game = () => {
     setIsDarkMode((prevIsDarkMode) => {
       return !prevIsDarkMode;
     });
+  }
+
+  function toggleContrast() {
+    setIsHighContrastMode((prevIsHighContrastMode) => {
+      return !prevIsHighContrastMode;
+    })
   }
 
   function toggleSettings() {
@@ -102,22 +109,22 @@ const Game = () => {
         if (guess.innerHTML === testWord[i]) {
           correctCount++;
           setTimeout(function () {
-            guess.classList.add("correct-flip");
+            guess.classList.add((isHighContrastMode ? "correct-flip-contrast" : "correct-flip"));
             document
               .getElementById(`letter-${guess.innerHTML}`)
-              .classList.add("correct");
+              .classList.add((isHighContrastMode ? "correct-contrast" : "correct"));
           }, 500 * (i + 1));
         } else if (testWord.includes(guess.innerHTML)) {
           setTimeout(function () {
-            guess.classList.add("almost-flip");
+            guess.classList.add((isHighContrastMode ? "almost-flip-contrast" : "almost-flip"));
             if (
               !document
                 .getElementById(`letter-${guess.innerHTML}`)
-                .classList.contains("correct")
+                .classList.contains(("correct"))
             ) {
               document
                 .getElementById(`letter-${guess.innerHTML}`)
-                .classList.add("almost");
+                .classList.add((isHighContrastMode ? "almost-contrast" : "almost"));
             }
           }, 500 * (i + 1));
         } else {
@@ -133,7 +140,7 @@ const Game = () => {
             ) {
               document
                 .getElementById(`letter-${guess.innerHTML}`)
-                .classList.add("wrong");
+                .classList.add(isHighContrastMode ? "wrong-contrast" : "wrong");
             }
           }, 500 * (i + 1));
         }
@@ -151,6 +158,62 @@ const Game = () => {
       }
     }
   }
+
+  useEffect(() => {
+    console.log(isHighContrastMode)
+    if(isHighContrastMode) {
+      const correct = document.querySelectorAll('.correct-flip');
+      const correctBtns = document.querySelectorAll('.correct');
+      const almost = document.querySelectorAll('.almost-flip');
+      const almostBtns = document.querySelectorAll('.almost');
+      correct.forEach((el) => {
+        console.log(el)
+        el.classList.remove('correct-flip');
+        el.classList.add('correct-flip-contrast')
+      })
+      almost.forEach((el) => {
+        console.log(el)
+        el.classList.remove('almost-flip');
+        el.classList.add('almost-flip-contrast')
+      })
+      correctBtns.forEach((el) => {
+        console.log(el)
+        el.classList.remove('correct');
+        el.classList.add('correct-contrast')
+      })
+      almostBtns.forEach((el) => {
+        console.log(el)
+        el.classList.remove('almost');
+        el.classList.add('almost-contrast')
+      })
+    } else {
+      const correct = document.querySelectorAll('.correct-flip-contrast');
+      const correctBtns = document.querySelectorAll('.correct-contrast');
+      const almost = document.querySelectorAll('.almost-flip-contrast');
+      const almostBtns = document.querySelectorAll('.almost-contrast');
+      correct.forEach((el) => {
+        console.log(el)
+        el.classList.remove('correct-flip-contrast');
+        el.classList.add('correct-flip')
+      })
+      almost.forEach((el) => {
+        console.log(el)
+        el.classList.remove('almost-flip-contrast');
+        el.classList.add('almost-flip')
+      })
+      correctBtns.forEach((el) => {
+        console.log(el)
+        el.classList.remove('correct-contrast');
+        el.classList.add('correct')
+      })
+      almostBtns.forEach((el) => {
+        console.log(el)
+        el.classList.remove('almost-contrast');
+        el.classList.add('almost')
+      })
+
+    }
+  }, [isHighContrastMode])
 
   function updateWord(e) {
     const guessArr = [
@@ -189,15 +252,15 @@ const Game = () => {
         <></>
       )}
       <StatsModal isClosed={modalHidden} closeModal={closeModal} />
-      <SetingsModal isClosed={isSettingsClosed} closeModal={toggleSettings} toggleDarkMode={toggleDarkMode} isDarkMode={isDarkMode}/>
-      <HelpModal isClosed={isHelpClosed} closeModal={toggleHelp} />
+      <SetingsModal isClosed={isSettingsClosed} closeModal={toggleSettings} toggleDarkMode={toggleDarkMode} isDarkMode={isDarkMode} isHighContrastMode={isHighContrastMode} toggleContrast={toggleContrast}/>
+      <HelpModal isClosed={isHelpClosed} closeModal={toggleHelp} isHighContrastMode={isHighContrastMode}/>
       <div className="page-content">
         <div className="game-window">
           {guessRowsArr.map((attempt, i) => {
             return <GuessRow attempt={attempt} iteration={i} />;
           })}
         </div>
-        <div className="keyboard-container">
+        <div className={isHighContrastMode ? "keyboard-container contrast" : "keyboard-container"}>
           {rows.map((row) => {
             return (
               <div className="row">

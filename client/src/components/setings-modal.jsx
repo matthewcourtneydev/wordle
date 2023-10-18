@@ -1,14 +1,27 @@
 import React, { useEffect } from "react";
 
-const SetingsModal = ({ isClosed, closeModal, isDarkMode, toggleDarkMode }) => {
- 
+const SetingsModal = ({
+  isClosed,
+  closeModal,
+  isDarkMode,
+  toggleDarkMode,
+  toggleContrast,
+  isHighContrastMode,
+}) => {
   useEffect(() => {
-    const darkModeCheckbox =  document.getElementById('checkbox-dark');
-    darkModeCheckbox.addEventListener('change', () => {
-      toggleDarkMode()
-    })
-    
-  }, [])
+    const darkModeCheckbox = document.getElementById("checkbox-dark");
+    const contrastModeCheckbox = document.getElementById("checkbox-contrast");
+    darkModeCheckbox.addEventListener("change", () => {
+      toggleDarkMode();
+    });
+    contrastModeCheckbox.addEventListener("change", () => {
+      toggleContrast();
+    });
+  }, []);
+
+  useEffect(() => {
+
+  }, [isHighContrastMode])
 
   return (
     <div
@@ -29,7 +42,13 @@ const SetingsModal = ({ isClosed, closeModal, isDarkMode, toggleDarkMode }) => {
                 <p>Any revealed hints must be used in subsequent guesses</p>
               </div>
               <div className="settings-right">
-                <div className="text-container">
+                <div
+                  className={
+                    isHighContrastMode
+                      ? "text-container contrast"
+                      : "text-container"
+                  }
+                >
                   <label className="toggle">
                     <input type="checkbox" />
                     <span class="slider round"></span>
@@ -42,9 +61,19 @@ const SetingsModal = ({ isClosed, closeModal, isDarkMode, toggleDarkMode }) => {
                 <h2>Dark Theme</h2>
               </div>
               <div className="settings-right">
-                <div className="text-container">
+                <div
+                  className={
+                    isHighContrastMode
+                      ? "text-container contrast"
+                      : "text-container"
+                  }
+                >
                   <label className="toggle">
-                    <input id="checkbox-dark" type="checkbox" checked={isDarkMode}/>
+                    <input
+                      id="checkbox-dark"
+                      type="checkbox"
+                      checked={isDarkMode}
+                    />
                     <span class="slider round"></span>
                   </label>
                 </div>
@@ -56,9 +85,19 @@ const SetingsModal = ({ isClosed, closeModal, isDarkMode, toggleDarkMode }) => {
                 <p>For improved color vision</p>
               </div>
               <div className="settings-right">
-                <div className="text-container">
+                <div
+                  className={
+                    isHighContrastMode
+                      ? "text-container contrast"
+                      : "text-container"
+                  }
+                >
                   <label className="toggle">
-                    <input type="checkbox" />
+                    <input
+                      id="checkbox-contrast"
+                      type="checkbox"
+                      checked={isHighContrastMode}
+                    />
                     <span class="slider round"></span>
                   </label>
                 </div>

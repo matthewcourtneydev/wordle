@@ -63,7 +63,7 @@ const StatsModal = ({ isClosed, closeModal }) => {
   return (
     <div className={isClosed ? "modal-layer closed" : "modal-layer"}>
       <div className="close-modal" onClick={() => closeModal()}>
-        Back to puzzle <strong>x</strong>
+        <p>Back to puzzle <strong>x</strong></p>
       </div>
       <div className="statistics section-container">
         <h1>STATISTICS</h1>

@@ -12,6 +12,16 @@
     animation-fill-mode: forwards;
 }
 
+.correct-flip-contrast {
+    animation: correct-flip-contrast 1s 1;
+    animation-fill-mode: forwards;
+}
+
+.almost-flip-contrast {
+    animation: almost-flip-contrast 1s 1;
+    animation-fill-mode: forwards;
+}
+
 .wrong-flip {
     animation: wrong-flip 1s 1;
     animation-fill-mode: forwards;
@@ -71,6 +81,45 @@
         transform: scaleY(1);
         background-color: rgb(108, 101, 101);
         border: solid 1px rgb(108, 101, 101);
+        color: white;
+    }
+}
+/* $correct-orange: rgb(255, 130, 41);
+$almost-blue: rgb(112, 225, 251); */
+@keyframes correct-flip-contrast {
+    0% {
+        transform: scaleY(1);
+        background-color: inherit;
+    } 
+    50% {
+        transform: scaleY(0);
+        background-color: rgb(255, 130, 41);
+        border: solid 1px rgb(255, 130, 41);
+        color: white;
+    }
+    100% {
+        transform: scaleY(1);
+        background-color: rgb(255, 130, 41);
+        border: solid 1px rgb(255, 130, 41);
+        color: white;
+    }
+}
+
+@keyframes almost-flip-contrast {
+    0% {
+        transform: scaleY(1);
+        background-color: inherit;
+    } 
+    50% {
+        transform: scaleY(0);
+        background-color: rgb(112, 225, 251);
+        border: solid 1px rgb(112, 225, 251);
+        color: white;
+    }
+    100% {
+        transform: scaleY(1);
+        background-color: rgb(112, 225, 251);
+        border: solid 1px rgb(112, 225, 251);
         color: white;
     }
 }
