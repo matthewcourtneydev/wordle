@@ -27,11 +27,13 @@
         transform: scaleY(0);
         background-color: rgb(100, 164, 100);
         border: solid 1px rgb(100, 164, 100);
+        color: white;
     }
     100% {
         transform: scaleY(1);
         background-color: rgb(100, 164, 100);
         border: solid 1px rgb(100, 164, 100);
+        color: white;
     }
 }
 
@@ -44,11 +46,13 @@
         transform: scaleY(0);
         background-color: rgb(221, 173, 0);
         border: solid 1px rgb(221, 173, 0);
+        color: white;
     }
     100% {
         transform: scaleY(1);
         background-color: rgb(221, 173, 0);
         border: solid 1px rgb(221, 173, 0);
+        color: white;
     }
 }
 
@@ -59,13 +63,15 @@
     } 
     50% {
         transform: scaleY(0);
-        background-color: rgb(81, 74, 74);
-        border: solid 1px rgb(81, 74, 74);
+        background-color: rgb(108, 101, 101);
+        border: solid 1px rgb(108, 101, 101);
+        color: white;
     }
     100% {
         transform: scaleY(1);
-        background-color: rgb(81, 74, 74);
-        border: solid 1px rgb(81, 74, 74);
+        background-color: rgb(108, 101, 101);
+        border: solid 1px rgb(108, 101, 101);
+        color: white;
     }
 }
 

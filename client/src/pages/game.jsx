@@ -5,7 +5,7 @@ import StatsModal from "../components/stats-modal";
 import SetingsModal from "../components/setings-modal";
 import HelpModal from "../components/help-modal";
 import Nav from "../components/nav";
-import '../animate.css'
+import "../animate.css";
 
 const Game = () => {
   const rows = [
@@ -27,26 +27,32 @@ const Game = () => {
   const [modalHidden, setModalHidden] = useState(true);
   const [isSettingsClosed, setIsSettingsClosed] = useState(true);
   const [isHelpClosed, setIsHelpClosed] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
-
-  const testWord = ['H', 'E', 'L', 'L', 'O']
+  const testWord = ["H", "E", "L", "L", "O"];
 
   function closeModal() {
     setModalHidden((prevSetModalHidden) => {
-        return !prevSetModalHidden;
-    })
+      return !prevSetModalHidden;
+    });
+  }
+
+  function toggleDarkMode() {
+    setIsDarkMode((prevIsDarkMode) => {
+      return !prevIsDarkMode;
+    });
   }
 
   function toggleSettings() {
     setIsSettingsClosed((prevIsSettingsClosed) => {
       return !prevIsSettingsClosed;
-    })
+    });
   }
 
   function toggleHelp() {
     setIsHelpClosed((prevIsHelpClosed) => {
       return !prevIsHelpClosed;
-    })
+    });
   }
 
   function increaseIndex() {
@@ -57,8 +63,8 @@ const Game = () => {
 
   function increaseAttempt() {
     setCurrentAttempt((prevCurrentAttempt) => {
-        return prevCurrentAttempt + 1;
-    })
+      return prevCurrentAttempt + 1;
+    });
   }
 
   function decreaseIndex() {
@@ -67,66 +73,82 @@ const Game = () => {
     });
   }
 
-  useEffect(() => {
-    console.log(currentAttempt)
-  }, [currentAttempt]);
-
-  useEffect(() => {
-    console.log(modalHidden)
-  }, [modalHidden]);
-
   function handleEnter() {
     console.log(currentGuessIndex);
     if (currentGuessIndex < 5) {
-        console.log('Not Enough Letters');
-        document.getElementById(`row-guess-${currentAttempt}`).classList.add('error-shake');
-        document.getElementById(`error-row-guess-${currentAttempt}`).classList.remove('hide');
-        setTimeout(function () {
-            document.getElementById(`row-guess-${currentAttempt}`).classList.remove('error-shake');
-            document.getElementById(`error-row-guess-${currentAttempt}`).classList.add('hide')
-        }, 2000);
+      console.log("Not Enough Letters");
+      document
+        .getElementById(`row-guess-${currentAttempt}`)
+        .classList.add("error-shake");
+      document
+        .getElementById(`error-row-guess-${currentAttempt}`)
+        .classList.remove("hide");
+      setTimeout(function () {
+        document
+          .getElementById(`row-guess-${currentAttempt}`)
+          .classList.remove("error-shake");
+        document
+          .getElementById(`error-row-guess-${currentAttempt}`)
+          .classList.add("hide");
+      }, 2000);
     } else {
-        const guessArr = [
-            ...document.getElementById(`row-guess-${currentAttempt}`).children,
-          ];
+      const guessArr = [
+        ...document.getElementById(`row-guess-${currentAttempt}`).children,
+      ];
 
-          let correctCount = 0;
-       guessArr.slice(0, -1).forEach((guess, i) => {
-        console.log(guess.innerHTML)
+      let correctCount = 0;
+      guessArr.slice(0, -1).forEach((guess, i) => {
+        console.log(guess.innerHTML);
         if (guess.innerHTML === testWord[i]) {
-            correctCount ++;
-            setTimeout(function () {
-                guess.classList.add('correct-flip');
-                document.getElementById(`letter-${guess.innerHTML}`).classList.add('correct');
-            }, (500 * (i + 1)));
+          correctCount++;
+          setTimeout(function () {
+            guess.classList.add("correct-flip");
+            document
+              .getElementById(`letter-${guess.innerHTML}`)
+              .classList.add("correct");
+          }, 500 * (i + 1));
         } else if (testWord.includes(guess.innerHTML)) {
-            setTimeout(function () {
-                guess.classList.add('almost-flip')
-                if(!document.getElementById(`letter-${guess.innerHTML}`).classList.contains('correct')) {
-                  document.getElementById(`letter-${guess.innerHTML}`).classList.add('almost');
-                }
-                
-            }, (500 * (i + 1)));
+          setTimeout(function () {
+            guess.classList.add("almost-flip");
+            if (
+              !document
+                .getElementById(`letter-${guess.innerHTML}`)
+                .classList.contains("correct")
+            ) {
+              document
+                .getElementById(`letter-${guess.innerHTML}`)
+                .classList.add("almost");
+            }
+          }, 500 * (i + 1));
         } else {
-            setTimeout(function () {
-                guess.classList.add('wrong-flip');
-                if(!document.getElementById(`letter-${guess.innerHTML}`).classList.contains('correct') || !document.getElementById(`letter-${guess.innerHTML}`).classList.includes('almost')) {
-                  document.getElementById(`letter-${guess.innerHTML}`).classList.add('wrong');
-                }
-            }, (500 * (i + 1)));
+          setTimeout(function () {
+            guess.classList.add("wrong-flip");
+            if (
+              !document
+                .getElementById(`letter-${guess.innerHTML}`)
+                .classList.contains("correct") ||
+              !document
+                .getElementById(`letter-${guess.innerHTML}`)
+                .classList.includes("almost")
+            ) {
+              document
+                .getElementById(`letter-${guess.innerHTML}`)
+                .classList.add("wrong");
+            }
+          }, 500 * (i + 1));
         }
-       })
+      });
 
-       if(correctCount === 5) {
-        console.log('game won')
-       } else if (currentAttempt === 6) {
-        console.log('game lost out of attempts')
-       } else {
-        console.log('game continues');
+      if (correctCount === 5) {
+        console.log("game won");
+      } else if (currentAttempt === 6) {
+        console.log("game lost out of attempts");
+      } else {
+        console.log("game continues");
         increaseAttempt();
-        setCurrentGuessIndex(0)
+        setCurrentGuessIndex(0);
         return;
-       }
+      }
     }
   }
 
@@ -135,30 +157,40 @@ const Game = () => {
       ...document.getElementById(`row-guess-${currentAttempt}`).children,
     ];
     if (e.target.id === "backspace") {
-        if (currentGuessIndex > 0) {
-            guessArr[currentGuessIndex - 1].innerHTML = "";
-            guessArr[currentGuessIndex - 1].classList.remove('value-present');
-            decreaseIndex();
-        }
+      if (currentGuessIndex > 0) {
+        guessArr[currentGuessIndex - 1].innerHTML = "";
+        guessArr[currentGuessIndex - 1].classList.remove("value-present");
+        decreaseIndex();
+      }
     } else if (e.target.id === "letter-Enter") {
-        handleEnter()
+      handleEnter();
     } else {
       if (currentGuessIndex <= 4) {
         guessArr[currentGuessIndex].innerHTML = e.target.value;
-        guessArr[currentGuessIndex].classList.add('value-present');
-        console.log(currentGuessIndex)
+        guessArr[currentGuessIndex].classList.add("value-present");
+        console.log(currentGuessIndex);
         increaseIndex();
       }
     }
   }
 
-
   return (
-    <div className="game-page page">
-      {( modalHidden ) ? <Nav isModalClosed={modalHidden} closeModal={closeModal} isSettingsClosed={isSettingsClosed} closeSettings={toggleSettings} closeHelp={toggleHelp} isHelpClosed={isHelpClosed}/> : <></>}
-    <StatsModal isClosed={modalHidden} closeModal={closeModal}/>
-    <SetingsModal isClosed={isSettingsClosed} closeModal={toggleSettings} />
-    <HelpModal isClosed={isHelpClosed} closeModal={toggleHelp} />
+    <div className={isDarkMode ? "game-page page" : "game-page page light"}>
+      {modalHidden ? (
+        <Nav
+          isModalClosed={modalHidden}
+          closeModal={closeModal}
+          isSettingsClosed={isSettingsClosed}
+          closeSettings={toggleSettings}
+          closeHelp={toggleHelp}
+          isHelpClosed={isHelpClosed}
+        />
+      ) : (
+        <></>
+      )}
+      <StatsModal isClosed={modalHidden} closeModal={closeModal} />
+      <SetingsModal isClosed={isSettingsClosed} closeModal={toggleSettings} toggleDarkMode={toggleDarkMode} isDarkMode={isDarkMode}/>
+      <HelpModal isClosed={isHelpClosed} closeModal={toggleHelp} />
       <div className="page-content">
         <div className="game-window">
           {guessRowsArr.map((attempt, i) => {

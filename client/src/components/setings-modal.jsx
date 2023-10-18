@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-const SetingsModal = ({ isClosed, closeModal }) => {
+const SetingsModal = ({ isClosed, closeModal, isDarkMode, toggleDarkMode }) => {
+ 
+  useEffect(() => {
+    const darkModeCheckbox =  document.getElementById('checkbox-dark');
+    darkModeCheckbox.addEventListener('change', () => {
+      toggleDarkMode()
+    })
+    
+  }, [])
+
   return (
     <div
       className={
@@ -35,7 +44,7 @@ const SetingsModal = ({ isClosed, closeModal }) => {
               <div className="settings-right">
                 <div className="text-container">
                   <label className="toggle">
-                    <input type="checkbox" />
+                    <input id="checkbox-dark" type="checkbox" checked={isDarkMode}/>
                     <span class="slider round"></span>
                   </label>
                 </div>
