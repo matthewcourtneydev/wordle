@@ -37,7 +37,7 @@ const Game = () => {
   const [currentAttempt, setCurrentAttempt] = useState(1);
   const [modalHidden, setModalHidden] = useState(true);
   const [isSettingsClosed, setIsSettingsClosed] = useState(true);
-  const [isHelpClosed, setIsHelpClosed] = useState(true);
+  const [isHelpClosed, setIsHelpClosed] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [isHighContrastMode, setIsHighContrastMode] = useState(false);
 
@@ -128,11 +128,14 @@ const Game = () => {
             guess.classList.add(
               isHighContrastMode ? "correct-flip-contrast" : "correct-flip"
             );
-            document
-              .getElementById(`letter-${guess.innerHTML}`)
-              .classList.add(
-                isHighContrastMode ? "correct-contrast" : "correct"
-              );
+            if (document
+              .getElementById(`letter-${guess.innerHTML}`)) {
+                document
+                .getElementById(`letter-${guess.innerHTML}`)
+                .classList.add(
+                  isHighContrastMode ? "correct-contrast" : "correct"
+                );
+              }
           }, 500 * (i + 1));
         } else if (currentWord.includes(guess.innerHTML)) {
           let guessIndexData = {

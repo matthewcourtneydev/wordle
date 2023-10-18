@@ -2,6 +2,7 @@ import './App.scss';
 import { Routes, Route } from 'react-router-dom'
 import Home from './pages/home';
 import Game from './pages/game'
+import Login from './pages/login';
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <Routes>
         <Route path={'/'} element={<Home />}/>
         <Route path={'/game'} element={<Game />}/>
+        <Route path={'/login'} element={<Login />}/>
       </Routes>
     </div>
   );

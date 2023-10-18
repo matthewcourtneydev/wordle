@@ -10,8 +10,8 @@ const Home = () => {
                 <h2>Get 6 chances to guess a 5-letter word.</h2>
                 <div className="button-container">
                     <a href={'/game'} id="play">Play</a>
-                    <a href={'/'}>Log in</a>
-                    <a href={'/'}>How to play</a>
+                    <a href={'/login'}>Log in</a>
+                    <a href={'/game'}>How to play</a>
                 </div>
             </div>
         </div>
