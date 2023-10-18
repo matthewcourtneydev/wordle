@@ -1,4 +1,6 @@
 import React from "react";
+import Example from "./example";
+import graphImg from "../imgs/graph.png";
 
 const HelpModal = ({ isClosed, closeModal }) => {
   return (
@@ -15,6 +17,28 @@ const HelpModal = ({ isClosed, closeModal }) => {
                 <li>The color of the tiles will change to show you how close your guess was to the word.</li>
             </ul>
             <p>Examples</p>
+            <div className="example-content">
+                <Example word={['W', 'E', 'A', 'R', 'Y']} index={0} color='correct' />
+                <p><strong>W</strong> is in the word and in the correct spot.</p>
+            </div>
+            <div className="example-content">
+                <Example word={['P', 'I', 'L', 'L', 'S']} index={1} color='almost' />
+                <p><strong>I</strong> is in the word but in the wrong spot.</p>
+            </div>
+            <div className="example-content">
+                <Example word={['V', 'A', 'G', 'U', 'E']} index={3} color='wrong' />
+                <p><strong>U</strong> is not in the word in any spot.</p>
+            </div>
+
+            <hr />
+            <div className="login-content">
+                <img src={graphImg} alt="graph image" />
+                <p><a href="#">Log in or create a free account</a> to link your stats.</p>
+            </div>
+            <hr />
+            <div className="bottom-text">
+            <p>You dont have to wait a full 24 hours to get a new puzzle here but to save your games and not lose any hot streaks <a href="#">Sign up</a> here.</p>
+            </div>
         </div>
       </div>
     </div>

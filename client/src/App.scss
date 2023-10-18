@@ -567,13 +567,12 @@ body {
       }
 
       .help-section-content {
-        background-color: green;
         width: 80%;
         margin: auto;
         padding-top: 35px;
 
         h1 {
-          font-size: 20px;
+          font-size: 25px;
           font-family: $logo-font;
           margin: 0;
         }
@@ -581,18 +580,83 @@ body {
         h2 {
           font-family: $non-logo-font;
           font-weight: 300;
-          font-size: 18px;
+          font-size: 20px;
           margin: 0;
         }
 
         ul {
-          max-width: 80%;
+          max-width: 85%;
           padding-left: 15px;
 
           li {
-            font-size: 12px;
+            font-size: 14px;
             font-family: $non-logo-font;
             font-weight: 300;
+            margin-bottom: 5px;
+          }
+        }
+
+        p {
+          margin: 0;
+          font-size: 20px;
+        }
+
+        .example-content {
+          padding: 5px 10px;
+
+          .example {
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            gap: 2px;
+  
+            .example-box {
+              border: $grey-line;
+              min-height: 32px;
+              min-width: 32px;
+              justify-content: space-around;
+              display: flex;
+              font-size: 27px;
+              font-weight: bold;
+            }
+          }
+
+          p {
+            font-size: 14px;
+            font-family: $non-logo-font;
+            font-weight: 300;
+          }
+        }
+
+        .login-content {
+          display: flex;
+          justify-content: space-between;
+          padding: 10px 0px;
+
+          img {
+            height: 40px;
+            padding-left: 7px;
+            filter: invert(100%);   
+            -webkit-filter: invert(100%); 
+          }
+
+          p {
+
+            a {
+              text-decoration: none;
+              color: rgb(64, 162, 210);
+            }
+            
+            font-size: 14px;
+            padding: 0px 20px;
+          }
+        }
+
+        .bottom-text {
+          padding: 10px 20px 0px 0px;
+          p {
+            font-size: 14px;
+            font-family: $non-logo-font;
           }
         }
       }
