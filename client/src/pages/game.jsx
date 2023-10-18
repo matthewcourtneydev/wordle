@@ -3,6 +3,7 @@ import { BsBackspace } from "react-icons/bs";
 import GuessRow from "../components/guess-row";
 import StatsModal from "../components/stats-modal";
 import SetingsModal from "../components/setings-modal";
+import HelpModal from "../components/help-modal";
 import Nav from "../components/nav";
 import '../animate.css'
 
@@ -25,6 +26,7 @@ const Game = () => {
   const [currentAttempt, setCurrentAttempt] = useState(1);
   const [modalHidden, setModalHidden] = useState(true);
   const [isSettingsClosed, setIsSettingsClosed] = useState(true);
+  const [isHelpClosed, setIsHelpClosed] = useState(true);
 
 
   const testWord = ['H', 'E', 'L', 'L', 'O']
@@ -38,6 +40,12 @@ const Game = () => {
   function toggleSettings() {
     setIsSettingsClosed((prevIsSettingsClosed) => {
       return !prevIsSettingsClosed;
+    })
+  }
+
+  function toggleHelp() {
+    setIsHelpClosed((prevIsHelpClosed) => {
+      return !prevIsHelpClosed;
     })
   }
 
@@ -147,9 +155,10 @@ const Game = () => {
 
   return (
     <div className="game-page page">
-      {( modalHidden ) ? <Nav isModalClosed={modalHidden} closeModal={closeModal} isSettingsClosed={isSettingsClosed} closeSettings={toggleSettings}/> : <></>}
+      {( modalHidden ) ? <Nav isModalClosed={modalHidden} closeModal={closeModal} isSettingsClosed={isSettingsClosed} closeSettings={toggleSettings} closeHelp={toggleHelp} isHelpClosed={isHelpClosed}/> : <></>}
     <StatsModal isClosed={modalHidden} closeModal={closeModal}/>
     <SetingsModal isClosed={isSettingsClosed} closeModal={toggleSettings} />
+    <HelpModal isClosed={isHelpClosed} closeModal={toggleHelp} />
       <div className="page-content">
         <div className="game-window">
           {guessRowsArr.map((attempt, i) => {
