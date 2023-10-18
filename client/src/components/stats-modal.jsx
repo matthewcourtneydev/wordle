@@ -3,7 +3,7 @@ import robotImg from "../imgs/robot.png";
 import graphImg from "../imgs/graph.png";
 import { UilShareAlt } from '@iconscout/react-unicons'
 
-const Modal = ({ isClosed, closeModal }) => {
+const StatsModal = ({ isClosed, closeModal }) => {
   const testUser = {
     currentStreak: 5,
     maxStreak: 5,
@@ -133,4 +133,4 @@ const Modal = ({ isClosed, closeModal }) => {
   );
 };
 
-export default Modal;
+export default StatsModal;

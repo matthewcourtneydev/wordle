@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { BsBackspace } from "react-icons/bs";
 import GuessRow from "../components/guess-row";
-import Modal from "../components/modal";
+import StatsModal from "../components/stats-modal";
+import SetingsModal from "../components/setings-modal";
 import Nav from "../components/nav";
 import '../animate.css'
 
@@ -22,13 +23,21 @@ const Game = () => {
   const [currentUserWord, setCurrentUserWord] = useState([]);
   const [currentGuessIndex, setCurrentGuessIndex] = useState(0);
   const [currentAttempt, setCurrentAttempt] = useState(1);
-  const [modalHidden, setModalHidden] = useState(false);
+  const [modalHidden, setModalHidden] = useState(true);
+  const [isSettingsClosed, setIsSettingsClosed] = useState(true);
+
 
   const testWord = ['H', 'E', 'L', 'L', 'O']
 
   function closeModal() {
     setModalHidden((prevSetModalHidden) => {
         return !prevSetModalHidden;
+    })
+  }
+
+  function toggleSettings() {
+    setIsSettingsClosed((prevIsSettingsClosed) => {
+      return !prevIsSettingsClosed;
     })
   }
 
@@ -138,8 +147,9 @@ const Game = () => {
 
   return (
     <div className="game-page page">
-      {modalHidden ? <Nav isModalClosed={modalHidden} closeModal={closeModal} /> : <></>}
-    <Modal isClosed={modalHidden} closeModal={closeModal}/>
+      {( modalHidden ) ? <Nav isModalClosed={modalHidden} closeModal={closeModal} isSettingsClosed={isSettingsClosed} closeSettings={toggleSettings}/> : <></>}
+    <StatsModal isClosed={modalHidden} closeModal={closeModal}/>
+    <SetingsModal isClosed={isSettingsClosed} closeModal={toggleSettings} />
       <div className="page-content">
         <div className="game-window">
           {guessRowsArr.map((attempt, i) => {

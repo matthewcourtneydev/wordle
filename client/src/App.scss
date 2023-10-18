@@ -1,4 +1,5 @@
 $dark-grey-background: rgb(45, 46, 48);
+$darker-grey-background: rgb(36, 37, 39);
 $grey-line: solid 2px rgb(64, 64, 64);
 $light-grey: rgb(154, 154, 154);
 $bright-white: white;
@@ -6,8 +7,8 @@ $white: rgb(231, 231, 231);
 $correct-green: rgb(100, 164, 100);
 $almost-yellow: rgb(221, 173, 0);
 $wrong-grey: rgb(81, 74, 74);
-$non-logo-font: 'Sarabun', sans-serif;
-$logo-font: 'Suez One', serif;
+$non-logo-font: "Sarabun", sans-serif;
+$logo-font: "Suez One", serif;
 
 html,
 body {
@@ -18,7 +19,7 @@ body {
 .App {
   font-family: $non-logo-font;
   font-weight: 300;
-  
+
   .page {
     background-color: grey;
     position: absolute;
@@ -36,14 +37,6 @@ body {
       padding-top: 120px;
       position: relative;
     }
-  }
-
-  .closed {
-    display: none;
-  }
-
-  .hide {
-    opacity: 0;
   }
 
   .home-page {
@@ -88,7 +81,7 @@ body {
 
   .game-page {
     overflow: hidden;
-    
+
     .page-content {
       padding-top: 10px;
     }
@@ -335,7 +328,7 @@ body {
       border-radius: 30px;
       margin: auto;
       margin-top: 15px;
-  
+
       span {
         margin-right: 5px;
       }
@@ -350,8 +343,10 @@ body {
     background-color: $dark-grey-background;
     border-bottom: $grey-line;
     color: $white;
+    font-family: $logo-font;
 
-    .left, .right {
+    .left,
+    .right {
       display: flex;
       align-items: center;
     }
@@ -369,10 +364,9 @@ body {
     }
   }
 
-
   .almost {
     background-color: $almost-yellow !important;
-  } 
+  }
 
   .correct {
     background-color: $correct-green !important;
@@ -380,5 +374,178 @@ body {
 
   .wrong {
     background-color: $wrong-grey !important;
+  }
+
+  .settings-modal-layer {
+    position: absolute;
+    bottom:0;
+    z-index: 10;
+    min-height: 100vh;
+    width: 100%;
+    color: $bright-white;
+    background-color: rgba(48, 48, 50, 0.703);
+    
+
+    .modal-menu {
+      width: 100%;
+      min-height: 60%;
+      background-color: $darker-grey-background;
+      display: flex;
+      position: absolute;
+      bottom: 0;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 20px;
+
+      .modal-menu-content {
+        padding-bottom: 50px;
+        width: 85%;
+        
+        h1 {
+          font-size: 15px;
+          width: fit-content;
+          margin: auto;
+        }
+
+        .close {
+          position: absolute;
+          right: 30px;
+          top: 20px;
+        }
+
+        .settings-container {
+          min-width: 100%;
+          margin: auto;
+          display: flex;
+          flex-direction: column;
+
+          .content-section {
+            min-width: 100%;
+            display: flex;
+            
+
+            .settings-left {
+              h2,
+              p {
+                padding: 0;
+                margin: 0;
+                vertical-align: middle;
+                padding-left: 10px;
+              }
+
+              h2 {
+                font-size: 15px;
+                font-weight: 300;
+                padding-top: 10px;
+              }
+
+              p {
+                font-size: 10px;
+                padding-bottom: 10px;
+                white-space: nowrap;
+              }
+
+              min-width: 70%;
+            }
+
+            .settings-right {
+              width: fit-content;
+              border-bottom: $grey-line;
+              text-align: center;
+              width: 30%;
+
+              .text-container {
+                max-width: 100%;
+                text-align: right;
+                margin: auto;
+                padding-top: 10px;
+                padding-right: 10px;
+                padding-bottom: 12px;
+                min-height: 30px;
+
+                a {
+                  text-decoration: none;
+                  color: $light-grey;
+                  font-size: 13px;
+                }
+
+                .toggle {
+                  position: relative;
+                  display: inline-block;
+                  width: 30px;
+                  height: 20px;
+                }
+                
+                .toggle input {
+                  opacity: 0;
+                  width: 0;
+                  height: 0;
+                }
+
+                .slider {
+                  position: absolute;
+                  cursor: pointer;
+                  top: 5px;
+                  left: 0;
+                  right: 0;
+                  bottom: -5px;
+                  background-color: $light-grey;
+                  -webkit-transition: 0.4s;
+                  transition: 0.4s;
+                }
+
+                .slider:before {
+                  position: absolute;
+                  content: "";
+                  height: 13px;
+                  width: 13px;
+                  left: 4px;
+                  bottom: 4px;
+                  background-color: white;
+                  -webkit-transition: 0.4s;
+                  transition: 0.4s;
+                }
+
+                input:checked + .slider {
+                  background-color: $correct-green;
+                }
+
+                input:focus + .slider {
+                  box-shadow: 0 0 1px $correct-green;
+                }
+
+                input:checked + .slider:before {
+                  -webkit-transform: translateX(10px);
+                  -ms-transform: translateX(10px);
+                  transform: translateX(9px);
+                }
+
+                /* Rounded sliders */
+                .slider.round {
+                  border-radius: 34px;
+                }
+
+                .slider.round:before {
+                  border-radius: 50%;
+                }
+              }
+            }
+
+            .settings-left,
+            .settings-right {
+              border-bottom: $grey-line;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .closed {
+    display: none;
+  }
+
+  .hide {
+    opacity: 0;
   }
 }
