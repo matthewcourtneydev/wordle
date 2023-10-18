@@ -1,6 +1,7 @@
 import React from "react";
 import robotImg from "../imgs/robot.png";
 import graphImg from "../imgs/graph.png";
+import img from '../imgs/x.png'
 import { UilShareAlt } from '@iconscout/react-unicons'
 
 const StatsModal = ({ isClosed, closeModal }) => {
@@ -63,7 +64,7 @@ const StatsModal = ({ isClosed, closeModal }) => {
   return (
     <div className={isClosed ? "modal-layer closed" : "modal-layer"}>
       <div className="close-modal" onClick={() => closeModal()}>
-        <p>Back to puzzle <strong>x</strong></p>
+        <p>Back to puzzle <img src={img} alt="" /></p>
       </div>
       <div className="statistics section-container">
         <h1>STATISTICS</h1>

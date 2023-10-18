@@ -1,13 +1,14 @@
 import React from "react";
 import Example from "./example";
 import graphImg from "../imgs/graph.png";
+import img from "../imgs/x.png"
 
 const HelpModal = ({ isClosed, closeModal, isHighContrastMode }) => {
   return (
     <div className={isClosed ? "help-modal-layer closed" : "help-modal-layer"}>
       <div className="modal-content">
         <div onClick={() => closeModal()} className="close">
-          X
+          <img src={img} alt="" />
         </div>
         <div className="help-section-content">
             <h1 className="title">How To Play</h1>

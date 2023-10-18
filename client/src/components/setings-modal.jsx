@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import img from '../imgs/x.png'
 
 const SetingsModal = ({
   isClosed,
@@ -33,7 +34,7 @@ const SetingsModal = ({
         <div className="modal-menu-content">
           <h1>SETTINGS</h1>
           <div onClick={() => closeModal()} className="close">
-            X
+            <img src={img} alt="" />
           </div>
           <div className="settings-container">
             <div className="content-section difficulty">

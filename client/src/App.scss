@@ -28,7 +28,6 @@ body {
   font-weight: 300;
 
   .page {
-    background-color: grey;
     position: absolute;
     bottom: 0;
     top: 0;
@@ -38,7 +37,6 @@ body {
     .page-content {
       max-width: 500px;
       height: 100%;
-      background-color: $dark-grey-background;
       margin: auto;
       text-align: center;
       padding-top: 120px;
@@ -47,22 +45,26 @@ body {
   }
 
   .home-page {
-    .logo {
-      background-color: black;
-      height: 70px;
-      width: 70px;
-      border-radius: 50%;
-      margin: auto;
+    background-color: $light-background;
+
+    img {
+      height: auto;
+      width: 30%;
+    }
+
+    h1 {
+      font-family: $logo-font;
     }
 
     h2 {
       width: 60%;
       margin: auto;
       font-weight: 100;
+      font-family: $non-logo-font;
     }
 
     .button-container {
-      width: 60%;
+      width: 50%;
       margin: auto;
       display: flex;
       flex-direction: column;
@@ -70,7 +72,7 @@ body {
 
       a {
         background: none;
-        padding: 15px;
+        padding: 10px;
         border-radius: 30px;
         width: 70%;
         margin: 7px auto;
@@ -88,6 +90,7 @@ body {
 
   .game-page {
     overflow: hidden;
+    background-color: $dark-grey-background;
 
     .page-content {
       padding-top: 10px;
@@ -191,15 +194,18 @@ body {
 
     .close-modal {
       position: absolute;
-      right: 30px;
+      right: 37px;
 
       p {
         padding: 0;
         margin: 0;
         font-size: 14px;
 
-        strong {
-          font-size: 17px;
+        img {
+          height: 12px;
+          width: auto;
+          filter: invert(100%);
+          -webkit-filter: invert(100%);
         }
       }
     }
@@ -340,7 +346,7 @@ body {
       background: none;
       border: none;
       font-size: 20px;
-      color: $white;
+      color: $bright-white;
       display: flex;
       background-color: $correct-green;
       padding: 7px 25px;
@@ -416,8 +422,15 @@ body {
 
         .close {
           position: absolute;
-          right: 30px;
+          right: 37px;
           top: 20px;
+
+          img {
+            height: 12px;
+            width: auto;
+            filter: invert(100%);
+            -webkit-filter: invert(100%);
+          }
         }
 
         .settings-container {
@@ -574,6 +587,12 @@ body {
         position: absolute;
         top: 20px;
         right: 37px;
+          img {
+            height: 12px;
+            width: auto;
+            filter: invert(100%);
+            -webkit-filter: invert(100%);
+          }
       }
 
       .help-section-content {
@@ -698,6 +717,17 @@ body {
         color: $darker-grey-background;
         background-color: $light-background;
 
+        .close {
+          position: absolute;
+          right: 37px;
+          top: 20px;
+
+          img {
+            filter: invert(0%);
+            -webkit-filter: invert(0%);
+          }
+        }
+
         .content-section {
           p {
             color: $dark-grey-background;
@@ -743,6 +773,25 @@ body {
       background-color: $light-background;
       color: $darker-grey-background;
 
+      .close, .close-layer {
+        position: absolute;
+        right: 37px;
+        top: 20px;
+
+        img {
+          filter: invert(0%);
+          -webkit-filter: invert(0%);
+        }
+
+        p {
+          img {
+            filter: invert(0%);
+            -webkit-filter: invert(0%);
+          }
+        }
+      }
+
+
       .bar,
       .grey-bar {
         background-color: $medium-grey !important;
@@ -754,6 +803,7 @@ body {
         filter: invert(0%);
         -webkit-filter: invert(0%);
       }
+      
 
       .help-section-content {
         .login-content {
@@ -766,6 +816,17 @@ body {
       .share {
         color: $bright-white;
         background-color: $correct-orange;
+      }
+    }
+
+    .modal-layer {
+      .close-modal {
+        p {
+          img {
+            filter: invert(0%);
+            -webkit-filter: invert(0%);
+          }
+        }
       }
     }
 
