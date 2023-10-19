@@ -48,13 +48,9 @@ const StatsModal = ({ isClosed, closeModal }) => {
     gamesCount[game.totalGuesses - 1] += 1;
   });
 
-  console.log(gamesCount);
-
   const gamesWon = testUser.games.map((game) => {
     return game.won === true;
   });
-
-  console.log(gamesWon);
 
   const gamesPlayed = testUser.games.length;
   const winPercentage = 1;
@@ -126,7 +122,7 @@ const StatsModal = ({ isClosed, closeModal }) => {
       <div className="section-container login-stat-container">
         <img src={graphImg} alt="graph image" />
         <div className="text">
-          <a href="#">Login or create a free account to link your stats.</a>
+          <a href="/login">Login or create a free account to link your stats.</a>
         </div>
       </div>
       <button className="share"><span>Share</span>  <UilShareAlt /></button>

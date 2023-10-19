@@ -46,6 +46,7 @@ body {
 
   .home-page {
     background-color: $light-background;
+    overflow: hidden;
 
     img {
       height: auto;
@@ -111,8 +112,8 @@ body {
         justify-content: space-around;
         gap: 5px;
 
-        .error {
-          background-color: blue;
+        .error, .error-hard {
+          background-color: $bright-white;
           border-radius: 5px;
           position: absolute;
           font-size: 15px;

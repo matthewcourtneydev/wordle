@@ -34,11 +34,11 @@ const HelpModal = ({ isClosed, closeModal, isHighContrastMode }) => {
             <hr />
             <div className="login-content">
                 <img src={graphImg} alt="graph image" />
-                <p><a href="#">Log in or create a free account</a> to link your stats.</p>
+                <p><a href="/login">Log in or create a free account</a> to link your stats.</p>
             </div>
             <hr />
             <div className="bottom-text">
-            <p>You dont have to wait a full 24 hours to get a new puzzle here but to save your games and not lose any hot streaks <a href="#">Sign up</a> here.</p>
+            <p>You dont have to wait a full 24 hours to get a new puzzle here but to save your games and not lose any hot streaks <a href="/register">Sign up</a> here.</p>
             </div>
         </div>
       </div>

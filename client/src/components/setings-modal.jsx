@@ -8,15 +8,21 @@ const SetingsModal = ({
   toggleDarkMode,
   toggleContrast,
   isHighContrastMode,
+  isHardMode,
+  toggleHardMode
 }) => {
   useEffect(() => {
     const darkModeCheckbox = document.getElementById("checkbox-dark");
+    const hardModeCheckbox = document.getElementById("checkbox-hard");
     const contrastModeCheckbox = document.getElementById("checkbox-contrast");
     darkModeCheckbox.addEventListener("change", () => {
       toggleDarkMode();
     });
     contrastModeCheckbox.addEventListener("change", () => {
       toggleContrast();
+    });
+    hardModeCheckbox.addEventListener("change", () => {
+      toggleHardMode();
     });
   }, []);
 
@@ -51,7 +57,7 @@ const SetingsModal = ({
                   }
                 >
                   <label className="toggle">
-                    <input type="checkbox" />
+                    <input id="checkbox-hard" type="checkbox" checked={isHardMode}/>
                     <span class="slider round"></span>
                   </label>
                 </div>

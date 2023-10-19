@@ -30,6 +30,7 @@ const Game = () => {
     totalGuesses: null,
     guesses: [],
     word: null,
+    hardMode: false,
   };
 
   const [currentWord, setCurrentWord] = useState(testWord);
@@ -40,6 +41,45 @@ const Game = () => {
   const [isHelpClosed, setIsHelpClosed] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [isHighContrastMode, setIsHighContrastMode] = useState(false);
+  const [isHardMode, setIsHardMode] = useState(true);
+  const [isHardErr, setIsHardErr] = useState(false);
+  const [hardErrInfo, setIsHardErrorInfo] = useState(false);
+
+  function displayHardError(error) {
+    console.log(hardErrInfo)
+    document
+    .getElementById(`row-guess-${currentAttempt}`)
+    .classList.add("error-shake");
+  document
+    .getElementById('error-hard-row-guess-1')
+    .classList.remove("hide");
+  setTimeout(function () {
+    document
+      .getElementById(`row-guess-${currentAttempt}`)
+      .classList.remove("error-shake");
+    document
+      .getElementById('error-hard-row-guess-1')
+      .classList.add("hide");
+    setIsHardInfo();
+  }, 2000);
+
+  }
+
+  function setIsHardInfo(info) {
+    if(hardErrInfo) {
+      setIsHardErrorInfo(false);
+    } else {
+      setIsHardErrorInfo(prev => {
+        return info;
+      });
+    }
+  }
+
+  // function toggleHardError() {
+  //   setIsHardError((prevIsHardError) => {
+  //     return !prevIsHardError;
+  //   });
+  // }
 
   function closeModal() {
     setModalHidden((prevSetModalHidden) => {
@@ -50,6 +90,12 @@ const Game = () => {
   function toggleDarkMode() {
     setIsDarkMode((prevIsDarkMode) => {
       return !prevIsDarkMode;
+    });
+  }
+
+  function toggleHardMode() {
+    setIsHardMode((prevIsHardMode) => {
+      return !prevIsHardMode;
     });
   }
 
@@ -89,156 +135,186 @@ const Game = () => {
     });
   }
 
+  function continueGameLogic() {
+    const guessArr = [
+      ...document.getElementById(`row-guess-${currentAttempt}`).children,
+    ];
+    const guessData = [];
+    let correctCount = 0;
+
+    guessArr.slice(0, 5).forEach((guess, i) => {
+      if (guess.innerHTML === currentWord[i]) {
+        correctCount++;
+        let guessIndexData = {
+          letter: `${guess.innerHTML}`,
+          isCorrect: "correct",
+        };
+        guessData.push(guessIndexData);
+        setTimeout(function () {
+          guess.classList.add(
+            isHighContrastMode ? "correct-flip-contrast" : "correct-flip"
+          );
+          if (document.getElementById(`letter-${guess.innerHTML}`)) {
+            document
+              .getElementById(`letter-${guess.innerHTML}`)
+              .classList.add(
+                isHighContrastMode ? "correct-contrast" : "correct"
+              );
+          }
+        }, 500 * (i + 1));
+      } else if (currentWord.includes(guess.innerHTML)) {
+        let guessIndexData = {
+          letter: `${guess.innerHTML}`,
+          isCorrect: "almost",
+        };
+        guessData.push(guessIndexData);
+        setTimeout(function () {
+          guess.classList.add(
+            isHighContrastMode ? "almost-flip-contrast" : "almost-flip"
+          );
+          if (
+            !document
+              .getElementById(`letter-${guess.innerHTML}`)
+              .classList.contains("correct")
+          ) {
+            document
+              .getElementById(`letter-${guess.innerHTML}`)
+              .classList.add(
+                isHighContrastMode ? "almost-contrast" : "almost"
+              );
+          }
+        }, 500 * (i + 1));
+      } else {
+        setTimeout(function () {
+          let guessIndexData = {
+            letter: `${guess.innerHTML}`,
+            isCorrect: "wrong",
+          };
+          guessData.push(guessIndexData);
+          guess.classList.add("wrong-flip");
+          if (
+            !document
+              .getElementById(`letter-${guess.innerHTML}`)
+              .classList.contains("correct") ||
+            !document
+              .getElementById(`letter-${guess.innerHTML}`)
+              .classList.includes("almost")
+          ) {
+            document
+              .getElementById(`letter-${guess.innerHTML}`)
+              .classList.add(
+                isHighContrastMode ? "wrong-contrast" : "wrong"
+              );
+          }
+        }, 500 * (i + 1));
+      }
+    });
+
+    if (correctCount === 5) {
+      console.log("game won");
+      basicGameData.guesses.push(guessData);
+      basicGameData.won = true;
+      basicGameData.totalGuesses = currentAttempt;
+      basicGameData.word = currentWord;
+      // TO DO PATCH USER OR REDIRECT TO LOGIN
+    } else if (currentAttempt === 6) {
+      basicGameData.guesses.push(guessData);
+      basicGameData.won = false;
+      basicGameData.totalGuesses = currentAttempt;
+      basicGameData.word = currentWord;
+
+      // TO DO PATCH USER OR REDIRECT TO LOGIN
+    } else {
+      basicGameData.guesses.push(guessData);
+      increaseAttempt();
+      setCurrentGuessIndex(0);
+      return;
+    }
+  }
+
   function handleEnter() {
-    console.log(currentGuessIndex);
     if (currentGuessIndex < 5) {
-      console.log("Not Enough Letters");
       document
         .getElementById(`row-guess-${currentAttempt}`)
         .classList.add("error-shake");
       document
-        .getElementById(`error-row-guess-${currentAttempt}`)
+        .getElementById('error-row-guess-1')
         .classList.remove("hide");
       setTimeout(function () {
         document
           .getElementById(`row-guess-${currentAttempt}`)
           .classList.remove("error-shake");
         document
-          .getElementById(`error-row-guess-${currentAttempt}`)
+          .getElementById('error-row-guess-1')
           .classList.add("hide");
       }, 2000);
     } else {
-      const guessArr = [
-        ...document.getElementById(`row-guess-${currentAttempt}`).children,
-      ];
-      const guessData = [];
-
-      let correctCount = 0;
-
-      guessArr.slice(0, -1).forEach((guess, i) => {
-        console.log(guess.innerHTML);
-        if (guess.innerHTML === currentWord[i]) {
-          correctCount++;
-          let guessIndexData = {
-            letter: `${guess.innerHTML}`,
-            isCorrect: "correct",
-          };
-          guessData.push(guessIndexData);
-          setTimeout(function () {
-            guess.classList.add(
-              isHighContrastMode ? "correct-flip-contrast" : "correct-flip"
-            );
-            if (document
-              .getElementById(`letter-${guess.innerHTML}`)) {
-                document
-                .getElementById(`letter-${guess.innerHTML}`)
-                .classList.add(
-                  isHighContrastMode ? "correct-contrast" : "correct"
-                );
-              }
-          }, 500 * (i + 1));
-        } else if (currentWord.includes(guess.innerHTML)) {
-          let guessIndexData = {
-            letter: `${guess.innerHTML}`,
-            isCorrect: "almost",
-          };
-          guessData.push(guessIndexData);
-          setTimeout(function () {
-            guess.classList.add(
-              isHighContrastMode ? "almost-flip-contrast" : "almost-flip"
-            );
-            if (
-              !document
-                .getElementById(`letter-${guess.innerHTML}`)
-                .classList.contains("correct")
-            ) {
-              document
-                .getElementById(`letter-${guess.innerHTML}`)
-                .classList.add(
-                  isHighContrastMode ? "almost-contrast" : "almost"
-                );
-            }
-          }, 500 * (i + 1));
-        } else {
-          setTimeout(function () {
-            let guessIndexData = {
-              letter: `${guess.innerHTML}`,
-              isCorrect: "wrong",
-            };
-            guessData.push(guessIndexData);
-            guess.classList.add("wrong-flip");
-            if (
-              !document
-                .getElementById(`letter-${guess.innerHTML}`)
-                .classList.contains("correct") ||
-              !document
-                .getElementById(`letter-${guess.innerHTML}`)
-                .classList.includes("almost")
-            ) {
-              document
-                .getElementById(`letter-${guess.innerHTML}`)
-                .classList.add(isHighContrastMode ? "wrong-contrast" : "wrong");
-            }
-          }, 500 * (i + 1));
+      if (currentAttempt > 1 && isHardMode) {
+        let prevGuessArray = [];
+        let currentGuessArr = [];
+        const guessArr = [
+          ...document.getElementById(`row-guess-${currentAttempt - 1}`)
+            .children,
+        ];
+        for (let i = 0; i < 5; i++) {
+          const element = guessArr[i];
+          prevGuessArray.push({
+            letter: element.innerHTML,
+            isCorrect: element.innerHTML === currentWord[i],
+          });
         }
-      });
 
-      if (correctCount === 5) {
-        console.log("game won");
-        basicGameData.guesses.push(guessData);
-        basicGameData.won = true;
-        basicGameData.totalGuesses = (currentAttempt);
-        basicGameData.word = currentWord;
-        console.log(basicGameData)
-        // TO DO PATCH USER OR REDIRECT TO LOGIN
+        guessArr.slice(0, 5).forEach((guess) => {
+          currentGuessArr.push(guess.innerHTML);
+        });
 
+        let error = false;
 
-        
-      } else if (currentAttempt === 6) {
-        console.log("game lost out of attempts");
-        basicGameData.guesses.push(guessData);
-        basicGameData.won = false;
-        basicGameData.totalGuesses = (currentAttempt);
-        basicGameData.word = currentWord;
+        for (let i = 0; i < prevGuessArray.length; i++) {
+          const prevGuess = prevGuessArray[i];
+          if (prevGuess.isCorrect === true) {
+            if (prevGuess.letter === currentGuessArr[i]) {
+              error = {
+                letter: prevGuess.letter,
+                index: i
+              };
 
-        // TO DO PATCH USER OR REDIRECT TO LOGIN
+              break;
+            }
+          }
+        }
 
-
-
+        if (error) {
+          setIsHardInfo(error);
+          displayHardError(error);
+        } else {
+          continueGameLogic()
+        }
       } else {
-        console.log("game continues");
-        basicGameData.guesses.push(guessData);
-        increaseAttempt();
-        setCurrentGuessIndex(0);
-        return;
+       continueGameLogic()
       }
     }
   }
 
   useEffect(() => {
-    console.log(isHighContrastMode);
     if (isHighContrastMode) {
       const correct = document.querySelectorAll(".correct-flip");
       const correctBtns = document.querySelectorAll(".correct");
       const almost = document.querySelectorAll(".almost-flip");
       const almostBtns = document.querySelectorAll(".almost");
       correct.forEach((el) => {
-        console.log(el);
         el.classList.remove("correct-flip");
         el.classList.add("correct-flip-contrast");
       });
       almost.forEach((el) => {
-        console.log(el);
         el.classList.remove("almost-flip");
         el.classList.add("almost-flip-contrast");
       });
       correctBtns.forEach((el) => {
-        console.log(el);
         el.classList.remove("correct");
         el.classList.add("correct-contrast");
       });
       almostBtns.forEach((el) => {
-        console.log(el);
         el.classList.remove("almost");
         el.classList.add("almost-contrast");
       });
@@ -248,22 +324,18 @@ const Game = () => {
       const almost = document.querySelectorAll(".almost-flip-contrast");
       const almostBtns = document.querySelectorAll(".almost-contrast");
       correct.forEach((el) => {
-        console.log(el);
         el.classList.remove("correct-flip-contrast");
         el.classList.add("correct-flip");
       });
       almost.forEach((el) => {
-        console.log(el);
         el.classList.remove("almost-flip-contrast");
         el.classList.add("almost-flip");
       });
       correctBtns.forEach((el) => {
-        console.log(el);
         el.classList.remove("correct-contrast");
         el.classList.add("correct");
       });
       almostBtns.forEach((el) => {
-        console.log(el);
         el.classList.remove("almost-contrast");
         el.classList.add("almost");
       });
@@ -279,6 +351,7 @@ const Game = () => {
         guessArr[currentGuessIndex - 1].innerHTML = "";
         guessArr[currentGuessIndex - 1].classList.remove("value-present");
         decreaseIndex();
+
       }
     } else if (e.target.id === "letter-Enter") {
       handleEnter();
@@ -286,11 +359,18 @@ const Game = () => {
       if (currentGuessIndex <= 4) {
         guessArr[currentGuessIndex].innerHTML = e.target.value;
         guessArr[currentGuessIndex].classList.add("value-present");
-        console.log(currentGuessIndex);
         increaseIndex();
       }
     }
   }
+
+  useEffect(() => {
+    console.log("Hard Mode:", isHardMode);
+  }, [isHardMode]);
+
+  useEffect(() => {
+    console.log("Hard Error Info:", hardErrInfo);
+  }, [hardErrInfo]);
 
   return (
     <div className={isDarkMode ? "game-page page" : "game-page page light"}>
@@ -314,6 +394,8 @@ const Game = () => {
         isDarkMode={isDarkMode}
         isHighContrastMode={isHighContrastMode}
         toggleContrast={toggleContrast}
+        isHardMode={isHardMode}
+        toggleHardMode={toggleHardMode}
       />
       <HelpModal
         isClosed={isHelpClosed}
@@ -323,7 +405,7 @@ const Game = () => {
       <div className="page-content">
         <div className="game-window">
           {guessRowsArr.map((attempt, i) => {
-            return <GuessRow attempt={attempt} iteration={i} />;
+            return <GuessRow attempt={attempt} iteration={i} error={hardErrInfo}/>;
           })}
         </div>
         <div
