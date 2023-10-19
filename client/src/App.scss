@@ -2,7 +2,8 @@ $dark-grey-background: rgb(45, 46, 48);
 $darker-grey-background: rgb(36, 37, 39);
 $grey-line: solid 2px rgb(64, 64, 64);
 $dark-mode-grey-line: solid 1px rgb(64, 64, 64);
-$light-grey: rgb(202, 199, 199);
+$light-grey: rgb(220, 220, 220);
+$light-dark-grey: rgb(176, 176, 176);
 $medium-grey: grey;
 $light-grey-line: solid 2px $light-grey;
 $bright-white: white;
@@ -132,6 +133,7 @@ body {
           justify-content: center;
           align-items: center;
           color: $white;
+          font-weight: bold;
         }
 
         .value-present {
@@ -166,7 +168,7 @@ body {
           font-family: $non-logo-font;
           font-weight: 600;
           font-size: 20px;
-          background-color: $light-grey;
+          background-color: $light-dark-grey;
           color: $bright-white;
         }
 
@@ -845,8 +847,11 @@ body {
       }
 
       .keyboard-container {
-        button {
-          color: $darker-grey-background
+        .row {
+          button {
+            color: $darker-grey-background;
+            background-color: $light-grey;
+          }
         }
       }
     }
