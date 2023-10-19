@@ -30,8 +30,10 @@ const Game = () => {
     totalGuesses: null,
     guesses: [],
     word: null,
-    hardMode: false,
+    hardMode: null,
   };
+
+  let guessesTotals = [];
 
   const [currentWord, setCurrentWord] = useState(testWord);
   const [currentGuessIndex, setCurrentGuessIndex] = useState(0);
@@ -42,45 +44,41 @@ const Game = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [isHighContrastMode, setIsHighContrastMode] = useState(false);
   const [isHardMode, setIsHardMode] = useState(true);
-  const [isHardErr, setIsHardErr] = useState(false);
+  const [gameGuessHistoryInfo, setGameGuessHistoryInfo] = useState([]);
   const [hardErrInfo, setIsHardErrorInfo] = useState(false);
 
   function displayHardError(error) {
-    console.log(hardErrInfo)
-    document
-    .getElementById(`row-guess-${currentAttempt}`)
-    .classList.add("error-shake");
-  document
-    .getElementById('error-hard-row-guess-1')
-    .classList.remove("hide");
-  setTimeout(function () {
+    console.log(hardErrInfo);
     document
       .getElementById(`row-guess-${currentAttempt}`)
-      .classList.remove("error-shake");
-    document
-      .getElementById('error-hard-row-guess-1')
-      .classList.add("hide");
-    setIsHardInfo();
-  }, 2000);
-
+      .classList.add("error-shake");
+    document.getElementById("error-hard-row-guess-1").classList.remove("hide");
+    setTimeout(function () {
+      document
+        .getElementById(`row-guess-${currentAttempt}`)
+        .classList.remove("error-shake");
+      document.getElementById("error-hard-row-guess-1").classList.add("hide");
+      setIsHardInfo();
+    }, 2000);
   }
 
   function setIsHardInfo(info) {
-    if(hardErrInfo) {
+    if (hardErrInfo) {
       setIsHardErrorInfo(false);
     } else {
-      setIsHardErrorInfo(prev => {
+      setIsHardErrorInfo((prev) => {
         return info;
       });
     }
   }
 
-  // function toggleHardError() {
-  //   setIsHardError((prevIsHardError) => {
-  //     return !prevIsHardError;
-  //   });
-  // }
-
+  function addGuessDataToArray(guessData) {
+    console.log(gameGuessHistoryInfo, guessData)
+    setGameGuessHistoryInfo((prevGuessHistory) => {
+      return [...prevGuessHistory, guessData];
+    });
+  }
+  
   function closeModal() {
     setModalHidden((prevSetModalHidden) => {
       return !prevSetModalHidden;
@@ -179,18 +177,16 @@ const Game = () => {
           ) {
             document
               .getElementById(`letter-${guess.innerHTML}`)
-              .classList.add(
-                isHighContrastMode ? "almost-contrast" : "almost"
-              );
+              .classList.add(isHighContrastMode ? "almost-contrast" : "almost");
           }
         }, 500 * (i + 1));
       } else {
+        let guessIndexData = {
+          letter: `${guess.innerHTML}`,
+          isCorrect: "wrong",
+        };
+        guessData.push(guessIndexData);
         setTimeout(function () {
-          let guessIndexData = {
-            letter: `${guess.innerHTML}`,
-            isCorrect: "wrong",
-          };
-          guessData.push(guessIndexData);
           guess.classList.add("wrong-flip");
           if (
             !document
@@ -202,9 +198,7 @@ const Game = () => {
           ) {
             document
               .getElementById(`letter-${guess.innerHTML}`)
-              .classList.add(
-                isHighContrastMode ? "wrong-contrast" : "wrong"
-              );
+              .classList.add(isHighContrastMode ? "wrong-contrast" : "wrong");
           }
         }, 500 * (i + 1));
       }
@@ -212,20 +206,26 @@ const Game = () => {
 
     if (correctCount === 5) {
       console.log("game won");
-      basicGameData.guesses.push(guessData);
       basicGameData.won = true;
       basicGameData.totalGuesses = currentAttempt;
       basicGameData.word = currentWord;
+      basicGameData.hardMode = isHardMode;
+      basicGameData.guesses = [...gameGuessHistoryInfo, guessData];
+
+      console.log(basicGameData);
       // TO DO PATCH USER OR REDIRECT TO LOGIN
     } else if (currentAttempt === 6) {
-      basicGameData.guesses.push(guessData);
+      console.log(guessesTotals, guessData);
+      addGuessDataToArray(guessData);
       basicGameData.won = false;
       basicGameData.totalGuesses = currentAttempt;
       basicGameData.word = currentWord;
+      basicGameData.guesses = gameGuessHistoryInfo;
 
       // TO DO PATCH USER OR REDIRECT TO LOGIN
     } else {
-      basicGameData.guesses.push(guessData);
+      console.log(guessesTotals, guessData);
+      addGuessDataToArray(guessData);
       increaseAttempt();
       setCurrentGuessIndex(0);
       return;
@@ -237,21 +237,18 @@ const Game = () => {
       document
         .getElementById(`row-guess-${currentAttempt}`)
         .classList.add("error-shake");
-      document
-        .getElementById('error-row-guess-1')
-        .classList.remove("hide");
+      document.getElementById("error-row-guess-1").classList.remove("hide");
       setTimeout(function () {
         document
           .getElementById(`row-guess-${currentAttempt}`)
           .classList.remove("error-shake");
-        document
-          .getElementById('error-row-guess-1')
-          .classList.add("hide");
+        document.getElementById("error-row-guess-1").classList.add("hide");
       }, 2000);
     } else {
       if (currentAttempt > 1 && isHardMode) {
         let prevGuessArray = [];
         let currentGuessArr = [];
+
         const guessArr = [
           ...document.getElementById(`row-guess-${currentAttempt - 1}`)
             .children,
@@ -264,7 +261,11 @@ const Game = () => {
           });
         }
 
-        guessArr.slice(0, 5).forEach((guess) => {
+        const newGuessArr = [
+          ...document.getElementById(`row-guess-${currentAttempt}`).children,
+        ];
+
+        newGuessArr.slice(0, 5).forEach((guess) => {
           currentGuessArr.push(guess.innerHTML);
         });
 
@@ -273,10 +274,10 @@ const Game = () => {
         for (let i = 0; i < prevGuessArray.length; i++) {
           const prevGuess = prevGuessArray[i];
           if (prevGuess.isCorrect === true) {
-            if (prevGuess.letter === currentGuessArr[i]) {
+            if (prevGuess.letter !== currentGuessArr[i]) {
               error = {
                 letter: prevGuess.letter,
-                index: i
+                index: i,
               };
 
               break;
@@ -288,10 +289,10 @@ const Game = () => {
           setIsHardInfo(error);
           displayHardError(error);
         } else {
-          continueGameLogic()
+          continueGameLogic();
         }
       } else {
-       continueGameLogic()
+        continueGameLogic();
       }
     }
   }
@@ -351,7 +352,7 @@ const Game = () => {
         guessArr[currentGuessIndex - 1].innerHTML = "";
         guessArr[currentGuessIndex - 1].classList.remove("value-present");
         decreaseIndex();
-
+        setIsHardErrorInfo(false);
       }
     } else if (e.target.id === "letter-Enter") {
       handleEnter();
@@ -371,6 +372,10 @@ const Game = () => {
   useEffect(() => {
     console.log("Hard Error Info:", hardErrInfo);
   }, [hardErrInfo]);
+
+  useEffect(() => {
+    console.log("game guess Info:", gameGuessHistoryInfo);
+  }, [gameGuessHistoryInfo]);
 
   return (
     <div className={isDarkMode ? "game-page page" : "game-page page light"}>
@@ -405,7 +410,9 @@ const Game = () => {
       <div className="page-content">
         <div className="game-window">
           {guessRowsArr.map((attempt, i) => {
-            return <GuessRow attempt={attempt} iteration={i} error={hardErrInfo}/>;
+            return (
+              <GuessRow attempt={attempt} iteration={i} error={hardErrInfo} />
+            );
           })}
         </div>
         <div
