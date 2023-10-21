@@ -13,6 +13,7 @@ $almost-yellow: rgb(221, 173, 0);
 $correct-orange: rgb(255, 130, 41);
 $almost-blue: rgb(112, 225, 251);
 $wrong-grey: rgb(108, 101, 101);
+$error-red: rgb(226, 21, 21);
 $non-logo-font: "Sarabun", sans-serif;
 $logo-font: "Suez One", serif;
 
@@ -42,6 +43,96 @@ body {
       text-align: center;
       padding-top: 120px;
       position: relative;
+    }
+  }
+
+  .login-page {
+    background-color: $light-background;
+
+    .login-page-content {
+      padding-top: 0 !important;
+
+      h1 {
+        font-family: $logo-font;
+        margin: 0px auto;
+        margin-top: 10px;
+        font-size: 22px;
+      }
+
+      .login-header-sub-content {
+        font-family: $non-logo-font;
+        font-weight: 300;
+      }
+
+      .input-fields {
+        display: flex;
+        flex-direction: column;
+        max-width: 80%;
+        margin: auto;
+
+        .input-field {
+          text-align: left;
+
+          label {
+            justify-content: center;
+            vertical-align: middle;
+            font-size: 14px;
+            font-weight: bold;
+          }
+          input {
+            font-size: 15px;
+            min-height: 27px;
+            min-width: 97%;
+            margin-top: 5px;
+            padding-left: 3%;
+            outline: 0;
+          }
+
+          .input-error {
+            border: 1px solid $error-red;
+          }
+
+          .email-error {
+            align-items: center;
+            display: flex;
+            margin-top: 5px;
+            font-size: 12px;
+            font-weight: 600;
+            color: $error-red;
+            img {
+              height: 15px;
+              margin-right: 3px;
+            }
+          }
+
+          .hidden {
+            display: none;
+          }
+        }
+
+        a {
+          text-align: left;
+          margin-top: 5px;
+          font-size: 13px;
+          color: $darker-grey-background;
+        }
+
+        .login-button, .login-button-alt {
+          background: none;
+          background-color: $darker-grey-background;
+          border: solid 1px $dark-grey-background;
+          color: $bright-white;
+          font-weight: bold;
+          font-size: 15px;
+          padding: 7px 0;
+          margin-top: 15px;
+        }
+
+        .login-button-alt {
+          background-color: $light-background;
+          color: $darker-grey-background;
+        }
+      }
     }
   }
 
@@ -113,7 +204,8 @@ body {
         justify-content: space-around;
         gap: 5px;
 
-        .error, .error-hard {
+        .error,
+        .error-hard {
           background-color: $bright-white;
           border-radius: 5px;
           position: absolute;
@@ -392,7 +484,6 @@ body {
     }
   }
 
-
   .settings-modal-layer {
     position: absolute;
     bottom: 0;
@@ -590,12 +681,12 @@ body {
         position: absolute;
         top: 20px;
         right: 37px;
-          img {
-            height: 12px;
-            width: auto;
-            filter: invert(100%);
-            -webkit-filter: invert(100%);
-          }
+        img {
+          height: 12px;
+          width: auto;
+          filter: invert(100%);
+          -webkit-filter: invert(100%);
+        }
       }
 
       .help-section-content {
@@ -711,7 +802,7 @@ body {
     .nav-bar {
       background-color: $light-background;
       color: $dark-grey-background;
-      border-bottom: $light-grey-line
+      border-bottom: $light-grey-line;
     }
     .settings-modal-layer {
       background-color: rgba(252, 251, 244, 0.393);
@@ -736,19 +827,18 @@ body {
             color: $dark-grey-background;
           }
 
-          .settings-left, .settings-right {
+          .settings-left,
+          .settings-right {
             border-bottom: $light-grey 1px solid !important;
-            
           }
 
           .settings-right {
-
             .slider {
               background-color: $medium-grey !important;
             }
 
             input:checked + .slider {
-              background-color: $correct-green!important;
+              background-color: $correct-green !important;
             }
 
             .contrast {
@@ -776,7 +866,8 @@ body {
       background-color: $light-background;
       color: $darker-grey-background;
 
-      .close, .close-layer {
+      .close,
+      .close-layer {
         position: absolute;
         right: 37px;
         top: 20px;
@@ -794,7 +885,6 @@ body {
         }
       }
 
-
       .bar,
       .grey-bar {
         background-color: $medium-grey !important;
@@ -806,7 +896,6 @@ body {
         filter: invert(0%);
         -webkit-filter: invert(0%);
       }
-      
 
       .help-section-content {
         .login-content {
@@ -855,7 +944,6 @@ body {
         }
       }
     }
-    
   }
 
   .almost {
@@ -873,19 +961,18 @@ body {
     color: $bright-white !important;
   }
 
-      .almost-contrast {
-        background-color: $almost-blue !important;
-        color: $bright-white !important;
-      }
-    
-      .correct-contrast {
-        background-color: $correct-orange !important;
-        color: $bright-white !important;
-      }
-    
-      .wrong-contrast {
-        background-color: $wrong-grey !important;
-        color: $bright-white !important;
-      }
-    
+  .almost-contrast {
+    background-color: $almost-blue !important;
+    color: $bright-white !important;
+  }
+
+  .correct-contrast {
+    background-color: $correct-orange !important;
+    color: $bright-white !important;
+  }
+
+  .wrong-contrast {
+    background-color: $wrong-grey !important;
+    color: $bright-white !important;
+  }
 }

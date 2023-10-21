@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { BsBackspace } from "react-icons/bs";
+import { UserContext } from "../contexts/user-context";
 import GuessRow from "../components/guess-row";
 import StatsModal from "../components/stats-modal";
 import SetingsModal from "../components/setings-modal";
@@ -8,13 +9,147 @@ import Nav from "../components/nav";
 import "../animate.css";
 
 const Game = () => {
+  const user = useContext(UserContext);
+  const existingUser = user.gameIndex > 0 ? true : false;
   const rows = [
     ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
     ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
     ["Enter", "Z", "X", "C", "V", "B", "N", "M", "Back"],
   ];
 
-  const testWord = ["H", "E", "L", "L", "O"];
+  const testUser = {
+    name: {
+      firstName: "Matthew",
+      middleName: "",
+      lastName: "",
+    },
+    gameIndex: 1,
+    authInfo: {
+      authToken: "fsdfsdfsdfsdfs",
+      isAuthenticated: true,
+    },
+    contactInfo: {
+      email: "testUser1@gmail.com",
+      username: "testUser1",
+      password: "123",
+    },
+    preferences: {
+      darkMode: true,
+      hardMode: false,
+      contrastMode: false,
+    },
+    games: [
+      {
+        won: true,
+        totalGuesses: 2,
+        guesses: [
+          [
+            {
+              letter: "H",
+              isCorrect: "correct",
+            },
+            {
+              letter: "O",
+              isCorrect: "almost",
+            },
+            {
+              letter: "L",
+              isCorrect: "correct",
+            },
+            {
+              letter: "L",
+              isCorrect: "correct",
+            },
+            {
+              letter: "Y",
+              isCorrect: "wrong",
+            },
+          ],
+          [
+            {
+              letter: "H",
+              isCorrect: "correct",
+            },
+            {
+              letter: "E",
+              isCorrect: "correct",
+            },
+            {
+              letter: "L",
+              isCorrect: "correct",
+            },
+            {
+              letter: "L",
+              isCorrect: "correct",
+            },
+            {
+              letter: "O",
+              isCorrect: "correct",
+            },
+          ],
+        ],
+        word: ["H", "E", "L", "L", "O"],
+        hardMode: true,
+      },
+      {
+        won: true,
+        totalGuesses: 2,
+        guesses: [
+          [
+            {
+              letter: "H",
+              isCorrect: "wrong",
+            },
+            {
+              letter: "E",
+              isCorrect: "wrong",
+            },
+            {
+              letter: "L",
+              isCorrect: "almost",
+            },
+            {
+              letter: "L",
+              isCorrect: "correct",
+            },
+            {
+              letter: "O",
+              isCorrect: "almost",
+            },
+          ],
+          [
+            {
+              letter: "W",
+              isCorrect: "correct",
+            },
+            {
+              letter: "O",
+              isCorrect: "correct",
+            },
+            {
+              letter: "R",
+              isCorrect: "correct",
+            },
+            {
+              letter: "L",
+              isCorrect: "correct",
+            },
+            {
+              letter: "D",
+              isCorrect: "correct",
+            },
+          ],
+        ],
+        word: ["W", "O", "R", "L", "D"],
+        hardMode: true,
+      },
+    ],
+  };
+
+  const testWordsList = [
+    ["H", "E", "L", "L", "O"],
+    ["W", "O", "R", "L", "D"],
+  ];
 
   const guessRowsArr = [
     "guess-1",
@@ -35,15 +170,15 @@ const Game = () => {
 
   let guessesTotals = [];
 
-  const [currentWord, setCurrentWord] = useState(testWord);
+  const [currentWord, setCurrentWord] = useState(testWordsList[user.gameIndex]);
   const [currentGuessIndex, setCurrentGuessIndex] = useState(0);
   const [currentAttempt, setCurrentAttempt] = useState(1);
   const [modalHidden, setModalHidden] = useState(true);
   const [isSettingsClosed, setIsSettingsClosed] = useState(true);
-  const [isHelpClosed, setIsHelpClosed] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true);
-  const [isHighContrastMode, setIsHighContrastMode] = useState(false);
-  const [isHardMode, setIsHardMode] = useState(true);
+  const [isHelpClosed, setIsHelpClosed] = useState(existingUser);
+  const [isDarkMode, setIsDarkMode] = useState(user.preferences.darkMode);
+  const [isHighContrastMode, setIsHighContrastMode] = useState(user.preferences.contrastMode);
+  const [isHardMode, setIsHardMode] = useState(user.preferences.hardMode);
   const [gameGuessHistoryInfo, setGameGuessHistoryInfo] = useState([]);
   const [hardErrInfo, setIsHardErrorInfo] = useState(false);
 
@@ -73,12 +208,12 @@ const Game = () => {
   }
 
   function addGuessDataToArray(guessData) {
-    console.log(gameGuessHistoryInfo, guessData)
+    console.log(gameGuessHistoryInfo, guessData);
     setGameGuessHistoryInfo((prevGuessHistory) => {
       return [...prevGuessHistory, guessData];
     });
   }
-  
+
   function closeModal() {
     setModalHidden((prevSetModalHidden) => {
       return !prevSetModalHidden;

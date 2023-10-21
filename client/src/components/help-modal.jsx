@@ -38,7 +38,7 @@ const HelpModal = ({ isClosed, closeModal, isHighContrastMode }) => {
             </div>
             <hr />
             <div className="bottom-text">
-            <p>You dont have to wait a full 24 hours to get a new puzzle here but to save your games and not lose any hot streaks <a href="/register">Sign up</a> here.</p>
+            <p>You dont have to wait a full 24 hours to get a new puzzle here but to save your games and not lose any hot streaks <a href="/login">Sign up</a> here.</p>
             </div>
         </div>
       </div>

@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "../contexts/user-context";
 import robotImg from "../imgs/robot.png";
 import graphImg from "../imgs/graph.png";
 import img from '../imgs/x.png'
 import { UilShareAlt } from '@iconscout/react-unicons'
 
 const StatsModal = ({ isClosed, closeModal }) => {
+  const user = useContext(UserContext);
+  console.log(user);
   const testUser = {
     currentStreak: 5,
     maxStreak: 5,
@@ -44,19 +47,19 @@ const StatsModal = ({ isClosed, closeModal }) => {
 
   let gamesCount = [0, 0, 0, 0, 0, 0];
 
-  testUser.games.forEach((game) => {
+  user.games.forEach((game) => {
     gamesCount[game.totalGuesses - 1] += 1;
   });
 
-  const gamesWon = testUser.games.map((game) => {
+  const gamesWon = user.games.map((game) => {
     return game.won === true;
   });
 
-  const gamesPlayed = testUser.games.length;
+  const gamesPlayed = user.games.length;
   const winPercentage = 1;
-  //   (testUser.games / testUser.games.length);
-  const currentStreak = testUser.currentStreak;
-  const maxStreak = testUser.maxStreak;
+  //   (user.games / user.games.length);
+  const currentStreak = user.currentStreak;
+  const maxStreak = user.maxStreak;
   return (
     <div className={isClosed ? "modal-layer closed" : "modal-layer"}>
       <div className="close-modal" onClick={() => closeModal()}>
