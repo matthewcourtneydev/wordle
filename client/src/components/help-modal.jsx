@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { UserContext } from "../contexts/user-context";
 import Example from "./example";
 import graphImg from "../imgs/graph.png";
 import img from "../imgs/x.png";
 
-const HelpModal = ({ isClosed, closeModal, isHighContrastMode, loggedIn }) => {
+const HelpModal = ({ isClosed, closeModal, isHighContrastMode }) => {
+  const user = useContext(UserContext)
+  const [loggedIn, setLoggedIn] = useState(user.authInfo.isAuthenticated);
   return (
     <div className={isClosed ? "help-modal-layer closed" : "help-modal-layer"}>
       <div className="modal-content">
@@ -49,7 +52,7 @@ const HelpModal = ({ isClosed, closeModal, isHighContrastMode, loggedIn }) => {
           </div>
 
           <hr />
-          {!loggedIn ? (
+          {loggedIn ? (
             <></>
           ) : (
             <>

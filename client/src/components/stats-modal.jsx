@@ -1,12 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext } from "../contexts/user-context";
 import robotImg from "../imgs/robot.png";
 import graphImg from "../imgs/graph.png";
 import img from "../imgs/x.png";
 import { UilShareAlt } from "@iconscout/react-unicons";
 
-const StatsModal = ({ isClosed, closeModal, loggedIn }) => {
+const StatsModal = ({ isClosed, closeModal }) => {
   const user = useContext(UserContext);
+  const [loggedIn, setLoggedIn] = useState(user.authInfo.isAuthenticated);
+
   console.log(user);
   const testUser = {
     currentStreak: 5,
@@ -135,7 +137,7 @@ const StatsModal = ({ isClosed, closeModal, loggedIn }) => {
           <a href="#">Did you beat the bot? &#62;</a>
         </div>
       </div>
-      {!loggedIn ? (
+      {loggedIn ? (
         <></>
       ) : (
         <>

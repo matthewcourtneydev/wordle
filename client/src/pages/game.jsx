@@ -8,7 +8,7 @@ import HelpModal from "../components/help-modal";
 import Nav from "../components/nav";
 import "../animate.css";
 
-const Game = ({ toggleLogin, loggedIn}) => {
+const Game = () => {
   let user = useContext(UserContext);
   const existingUser = user.gameIndex > 0 ? true : false;
   const rows = [
@@ -522,8 +522,42 @@ const Game = ({ toggleLogin, loggedIn}) => {
   }
 
   useEffect(() => {
-    console.log("Hard Mode:", isHardMode);
+    let newData = {
+      ...user,
+      preferences: {
+        ...user.preferences,
+        hardMode: isHardMode
+      }
+    };
+
+    localStorage.setItem('mdc_wordle_user', JSON.stringify(newData))
   }, [isHardMode]);
+
+  useEffect(() => {
+    let newData = {
+      ...user,
+      preferences: {
+        ...user.preferences,
+        darkMode: isDarkMode
+      }
+    };
+
+    localStorage.setItem('mdc_wordle_user', JSON.stringify(newData))
+  }, [isDarkMode]);
+
+  useEffect(() => {
+    console.log(user)
+    let newData = {
+      ...user,
+      preferences: {
+        ...user.preferences,
+        contrastMode: isHighContrastMode
+      }
+    };
+
+    localStorage.setItem('mdc_wordle_user', JSON.stringify(newData))
+  }, [isHighContrastMode]);
+
 
   useEffect(() => {
     console.log("Hard Error Info:", hardErrInfo);
@@ -547,7 +581,7 @@ const Game = ({ toggleLogin, loggedIn}) => {
       ) : (
         <></>
       )}
-      <StatsModal loggedIn={loggedIn} toggleLogin={toggleLogin} isClosed={modalHidden} closeModal={closeModal} />
+      <StatsModal isClosed={modalHidden} closeModal={closeModal} />
       <SetingsModal
         isClosed={isSettingsClosed}
         closeModal={toggleSettings}
@@ -561,7 +595,6 @@ const Game = ({ toggleLogin, loggedIn}) => {
       <HelpModal
         isClosed={isHelpClosed}
         closeModal={toggleHelp}
-        loggedIn={loggedIn}
         isHighContrastMode={isHighContrastMode}
       />
       <div className="page-content">
