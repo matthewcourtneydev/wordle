@@ -8,8 +8,8 @@ import HelpModal from "../components/help-modal";
 import Nav from "../components/nav";
 import "../animate.css";
 
-const Game = () => {
-  const user = useContext(UserContext);
+const Game = ({ toggleLogin, loggedIn}) => {
+  let user = useContext(UserContext);
   const existingUser = user.gameIndex > 0 ? true : false;
   const rows = [
     ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
@@ -149,6 +149,10 @@ const Game = () => {
   const testWordsList = [
     ["H", "E", "L", "L", "O"],
     ["W", "O", "R", "L", "D"],
+    ["D", "O", "G", "G", "O"],
+    ["R", "E", "L", "A", "X"],
+    ["D", "R", "A", "I", "N"],
+    ["T", "H", "U", "M", "P"],
   ];
 
   const guessRowsArr = [
@@ -177,7 +181,9 @@ const Game = () => {
   const [isSettingsClosed, setIsSettingsClosed] = useState(true);
   const [isHelpClosed, setIsHelpClosed] = useState(existingUser);
   const [isDarkMode, setIsDarkMode] = useState(user.preferences.darkMode);
-  const [isHighContrastMode, setIsHighContrastMode] = useState(user.preferences.contrastMode);
+  const [isHighContrastMode, setIsHighContrastMode] = useState(
+    user.preferences.contrastMode
+  );
   const [isHardMode, setIsHardMode] = useState(user.preferences.hardMode);
   const [gameGuessHistoryInfo, setGameGuessHistoryInfo] = useState([]);
   const [hardErrInfo, setIsHardErrorInfo] = useState(false);
@@ -348,6 +354,21 @@ const Game = () => {
       basicGameData.guesses = [...gameGuessHistoryInfo, guessData];
 
       console.log(basicGameData);
+      setTimeout(() => {
+        user.games = [...user.games, basicGameData];
+        user.gameIndex++;
+        if (user.gameIndex < 1) {
+          user.currentStreak = 1;
+          user.maxStreak = 1;
+        } else {
+          user.currentStreak++;
+          if (user.currentStreak > user.maxStreak) {
+            user.maxStreak++;
+          }
+        }
+        localStorage.setItem("mdc_wordle_user", JSON.stringify(user));
+        closeModal();
+      }, 3500);
       // TO DO PATCH USER OR REDIRECT TO LOGIN
     } else if (currentAttempt === 6) {
       console.log(guessesTotals, guessData);
@@ -526,7 +547,7 @@ const Game = () => {
       ) : (
         <></>
       )}
-      <StatsModal isClosed={modalHidden} closeModal={closeModal} />
+      <StatsModal loggedIn={loggedIn} toggleLogin={toggleLogin} isClosed={modalHidden} closeModal={closeModal} />
       <SetingsModal
         isClosed={isSettingsClosed}
         closeModal={toggleSettings}
@@ -540,6 +561,7 @@ const Game = () => {
       <HelpModal
         isClosed={isHelpClosed}
         closeModal={toggleHelp}
+        loggedIn={loggedIn}
         isHighContrastMode={isHighContrastMode}
       />
       <div className="page-content">

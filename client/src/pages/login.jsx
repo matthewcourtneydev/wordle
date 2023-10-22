@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/user-context";
 import errorImg from "../imgs/error.png";
 
-const Login = () => {
+const Login = ({ logout, loggedIn, toggleLogin, setLoggedIn }) => {
   const [isEmailPresent, setIsEmailPresent] = useState(false);
   const [isExistingUser, setIsExistingUser] = useState(false);
   const [isEmailError, setIsEmailError] = useState(false);
@@ -13,7 +13,7 @@ const Login = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   let user = useContext(UserContext);
 
@@ -55,7 +55,7 @@ const Login = () => {
             middleName: "",
             lastName: "",
           },
-          gameIndex: 1,
+          gameIndex: 3,
           authInfo: {
             authToken: "fsdfsdfsdfsdfs",
             isAuthenticated: true,
@@ -176,6 +176,8 @@ const Login = () => {
               hardMode: true,
             },
           ],
+          maxStreak: 2,
+          currentStreak: 2,
         };
       }
 
@@ -196,7 +198,27 @@ const Login = () => {
     if (retrievedUser.contactInfo.password !== password) {
       console.log("password error");
     } else {
-      localStorage.setItem("mdc_wordle_user", JSON.stringify(retrievedUser));
+      toggleLogin(true);
+      let currentStreak =
+        user.games.length && user.games[0].won
+          ? retrievedUser.currentStreak + 1
+          : retrievedUser.currentStreak;
+      let maxStreak =
+        currentStreak > retrievedUser.currentStreak ? currentStreak : 0;
+      let updatedRetrievedUser = {
+        ...retrievedUser,
+        games: user.games.length
+          ? [...retrievedUser.games, user.game[0]]
+          : retrievedUser.games,
+        gameIndex: retrievedUser.gameIndex + user.gameIndex,
+        currentStreak: currentStreak,
+        maxStreak: maxStreak,
+      };
+
+      localStorage.setItem(
+        "mdc_wordle_user",
+        JSON.stringify(updatedRetrievedUser)
+      );
     }
   }
 
@@ -209,15 +231,16 @@ const Login = () => {
         password: passwordRef.current.value,
       },
     };
-    console.log(user);
+    setLoggedIn(true);
     localStorage.setItem("mdc_wordle_user", JSON.stringify(user));
   }
 
   function continueRedirect() {
-    navigate('/game')
+    navigate("/game");
+    window.location.reload();
   }
 
-  return user.authInfo.isAuthenticated ? (
+  return !loggedIn ? (
     <div className="page login-page">
       <div className="page-content login-page-content">
         <h1 className="header">MDC Wordle</h1>
@@ -251,7 +274,9 @@ const Login = () => {
                     <input type="password" ref={passwordRef} />
                   </div>
                   <a href="#">Forgot your password?</a>
-                  <button className="login-button">Log In</button>
+                  <button className="login-button" onClick={loginClick}>
+                    Log In
+                  </button>
                   <button className="login-button-alt">
                     Log in without password
                   </button>
@@ -284,9 +309,9 @@ const Login = () => {
         <h2 className="login-header-sub-content">You're all set!</h2>
         <div className="input-fields">
           <div className="input-field"></div>
-        <button className="login-button" onClick={continueRedirect}>
-          Continue
-        </button>
+          <button className="login-button" onClick={continueRedirect}>
+            Continue
+          </button>
         </div>
       </div>
     </div>
