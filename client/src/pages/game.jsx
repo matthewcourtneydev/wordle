@@ -6,10 +6,12 @@ import StatsModal from "../components/stats-modal";
 import SetingsModal from "../components/setings-modal";
 import HelpModal from "../components/help-modal";
 import Nav from "../components/nav";
+import AsideNav from "../components/aside-nav";
 import "../animate.css";
 
-const Game = () => {
-  let user = useContext(UserContext);
+const Game = ({ defaultUserObj, loggedIn, toggleLogin }) => {
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('mdc_wordle_user')) || defaultUserObj)
+
   const existingUser = user.gameIndex > 0 ? true : false;
   const rows = [
     ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
@@ -180,6 +182,7 @@ const Game = () => {
   const [modalHidden, setModalHidden] = useState(true);
   const [isSettingsClosed, setIsSettingsClosed] = useState(true);
   const [isHelpClosed, setIsHelpClosed] = useState(existingUser);
+  const [isAsideClosed, setIsAsideClosed] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(user.preferences.darkMode);
   const [isHighContrastMode, setIsHighContrastMode] = useState(
     user.preferences.contrastMode
@@ -189,7 +192,6 @@ const Game = () => {
   const [hardErrInfo, setIsHardErrorInfo] = useState(false);
 
   function displayHardError(error) {
-    console.log(hardErrInfo);
     document
       .getElementById(`row-guess-${currentAttempt}`)
       .classList.add("error-shake");
@@ -214,7 +216,6 @@ const Game = () => {
   }
 
   function addGuessDataToArray(guessData) {
-    console.log(gameGuessHistoryInfo, guessData);
     setGameGuessHistoryInfo((prevGuessHistory) => {
       return [...prevGuessHistory, guessData];
     });
@@ -230,6 +231,12 @@ const Game = () => {
     setIsDarkMode((prevIsDarkMode) => {
       return !prevIsDarkMode;
     });
+  }
+
+  function toggleAside() {
+    setIsAsideClosed((prevIsAsideClosed) => {
+      return !prevIsAsideClosed;
+    })
   }
 
   function toggleHardMode() {
@@ -346,14 +353,12 @@ const Game = () => {
     });
 
     if (correctCount === 5) {
-      console.log("game won");
       basicGameData.won = true;
       basicGameData.totalGuesses = currentAttempt;
       basicGameData.word = currentWord;
       basicGameData.hardMode = isHardMode;
       basicGameData.guesses = [...gameGuessHistoryInfo, guessData];
 
-      console.log(basicGameData);
       setTimeout(() => {
         user.games = [...user.games, basicGameData];
         user.gameIndex++;
@@ -380,7 +385,6 @@ const Game = () => {
 
       // TO DO PATCH USER OR REDIRECT TO LOGIN
     } else {
-      console.log(guessesTotals, guessData);
       addGuessDataToArray(guessData);
       increaseAttempt();
       setCurrentGuessIndex(0);
@@ -546,7 +550,6 @@ const Game = () => {
   }, [isDarkMode]);
 
   useEffect(() => {
-    console.log(user)
     let newData = {
       ...user,
       preferences: {
@@ -558,30 +561,20 @@ const Game = () => {
     localStorage.setItem('mdc_wordle_user', JSON.stringify(newData))
   }, [isHighContrastMode]);
 
-
-  useEffect(() => {
-    console.log("Hard Error Info:", hardErrInfo);
-  }, [hardErrInfo]);
-
-  useEffect(() => {
-    console.log("game guess Info:", gameGuessHistoryInfo);
-  }, [gameGuessHistoryInfo]);
-
   return (
     <div className={isDarkMode ? "game-page page" : "game-page page light"}>
       {modalHidden ? (
         <Nav
-          isModalClosed={modalHidden}
           closeModal={closeModal}
-          isSettingsClosed={isSettingsClosed}
           closeSettings={toggleSettings}
           closeHelp={toggleHelp}
-          isHelpClosed={isHelpClosed}
+          closeAside={toggleAside}
         />
       ) : (
         <></>
       )}
-      <StatsModal isClosed={modalHidden} closeModal={closeModal} />
+      <AsideNav isAsideClosed={isAsideClosed} defaultUserObj={defaultUserObj} closeAside={toggleAside} loggedIn={loggedIn} toggleLogin={toggleLogin}/>
+      <StatsModal isClosed={modalHidden} defaultUserObj={defaultUserObj} closeModal={closeModal} />
       <SetingsModal
         isClosed={isSettingsClosed}
         closeModal={toggleSettings}

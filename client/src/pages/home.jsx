@@ -2,9 +2,8 @@ import React, { useContext, useState } from "react";
 import { UserContext } from "../contexts/user-context";
 import img from "../imgs/logo.webp";
 
-const Home = () => {
-  const user = useContext(UserContext);
-  const [loggedIn, setLoggedIn] = useState(user.authInfo.isAuthenticated);
+const Home = ({ defaultUserObj, toggleLogin, loggedIn }) => {
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('mdc_wordle_user')) || defaultUserObj)
 
   return (
     <div className="home-page page">

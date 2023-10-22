@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UilBars, UilQuestionCircle, UilGraphBar, UilSetting } from '@iconscout/react-unicons'
 
-const Nav = ({isModalClosed, closeModal, closeSettings, isSettingsClosed, closeHelp, isHelpClosed}) => {
+const Nav = ({closeModal, closeSettings, closeHelp, closeAside}) => {
     const navigate = useNavigate();
     useEffect(() => {
         document.querySelector('.home-link').addEventListener('click', () => {
@@ -13,7 +13,7 @@ const Nav = ({isModalClosed, closeModal, closeSettings, isSettingsClosed, closeH
     return (
         <nav className="nav-bar">
             <div className="left">
-            <UilBars />
+            <UilBars onClick={closeAside} />
             <p className="home-link">Wordle</p>
             </div>
             <div className="right">

@@ -5,47 +5,9 @@ import graphImg from "../imgs/graph.png";
 import img from "../imgs/x.png";
 import { UilShareAlt } from "@iconscout/react-unicons";
 
-const StatsModal = ({ isClosed, closeModal }) => {
-  const user = useContext(UserContext);
+const StatsModal = ({ isClosed, closeModal, defaultUserObj }) => {
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('mdc_wordle_user')) || defaultUserObj)
   const [loggedIn, setLoggedIn] = useState(user.authInfo.isAuthenticated);
-
-  console.log(user);
-  const testUser = {
-    currentStreak: 5,
-    maxStreak: 5,
-    games: [
-      {
-        won: true,
-        totalGuesses: 4,
-        averageCorrect: 3,
-      },
-      {
-        won: true,
-        totalGuesses: 3,
-        averageCorrect: 3,
-      },
-      {
-        won: true,
-        totalGuesses: 1,
-        averageCorrect: 5,
-      },
-      {
-        won: true,
-        totalGuesses: 1,
-        averageCorrect: 5,
-      },
-      {
-        won: true,
-        totalGuesses: 6,
-        averageCorrect: 3,
-      },
-      {
-        won: true,
-        totalGuesses: 5,
-        averageCorrect: 4,
-      },
-    ],
-  };
 
   let gamesCount = [0, 0, 0, 0, 0, 0];
 
@@ -53,6 +15,7 @@ const StatsModal = ({ isClosed, closeModal }) => {
     gamesCount[game.totalGuesses - 1] += 1;
   });
 
+  // TODO UPDATE PERCENTAGE LOGIC
   const gamesWon = user.games.map((game) => {
     return game.won === true;
   });
@@ -60,6 +23,8 @@ const StatsModal = ({ isClosed, closeModal }) => {
   const gamesPlayed = user.games.length;
   const winPercentage = 1;
   //   (user.games / user.games.length);
+
+
   const currentStreak = user.currentStreak;
   const maxStreak = user.maxStreak;
   return (

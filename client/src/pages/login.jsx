@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/user-context";
 import errorImg from "../imgs/error.png";
 
-const Login = ({ logout, loggedIn, setLoggedIn }) => {
+const Login = ({ setLoggedIn, loggedIn, toggleLogin }) => {
   let user = useContext(UserContext);
 
   const [isEmailPresent, setIsEmailPresent] = useState(false);
@@ -11,7 +11,6 @@ const Login = ({ logout, loggedIn, setLoggedIn }) => {
   const [isEmailError, setIsEmailError] = useState(false);
   const [isPasswordError, setIsPasswordError] = useState(false);
   const [retrievedUser, setRetrievedUser] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(user.authInfo.isAuthenticated);
 
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -21,12 +20,6 @@ const Login = ({ logout, loggedIn, setLoggedIn }) => {
   function toggleExistingUser() {
     setIsExistingUser((prevIsExistingUser) => {
       return !prevIsExistingUser;
-    });
-  }
-
-  function toggleLogin() {
-    setIsLoggedIn((prevIsLoggedIn) => {
-      return !prevIsLoggedIn;
     });
   }
 
@@ -205,17 +198,17 @@ const Login = ({ logout, loggedIn, setLoggedIn }) => {
     if (retrievedUser.contactInfo.password !== password) {
       console.log("password error");
     } else {
-      toggleLogin();
       let currentStreak =
         user.games.length && user.games[0].won
           ? retrievedUser.currentStreak + 1
-          : retrievedUser.currentStreak;
+          : retrievedUser.currentStreak
       let maxStreak =
         currentStreak > retrievedUser.currentStreak ? currentStreak : 0;
+      
       let updatedRetrievedUser = {
         ...retrievedUser,
-        games: user.games.length
-          ? [...retrievedUser.games, user.game[0]]
+        games: (user.games.length)
+          ? [...retrievedUser.games, user.games[0]]
           : retrievedUser.games,
         gameIndex: retrievedUser.gameIndex + user.gameIndex,
         currentStreak: currentStreak,
@@ -226,6 +219,7 @@ const Login = ({ logout, loggedIn, setLoggedIn }) => {
         "mdc_wordle_user",
         JSON.stringify(updatedRetrievedUser)
       );
+      toggleLogin();
     }
   }
 
@@ -244,10 +238,9 @@ const Login = ({ logout, loggedIn, setLoggedIn }) => {
 
   function continueRedirect() {
     navigate("/game");
-    window.location.reload();
   }
 
-  return !isLoggedIn ? (
+  return !loggedIn ? (
     <div className="page login-page">
       <div className="page-content login-page-content">
         <h1 className="header">MDC Wordle</h1>
