@@ -9,8 +9,9 @@ import Nav from "../components/nav";
 import AsideNav from "../components/aside-nav";
 import "../animate.css";
 
-const Game = ({ defaultUserObj, loggedIn, toggleLogin }) => {
+const Game = ({ defaultUserObj, toggleLogin }) => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('mdc_wordle_user')) || defaultUserObj)
+  const [loggedIn, setLoggedIn] = useState(user.authInfo.isAuthenticated);
 
   const existingUser = user.gameIndex > 0 ? true : false;
   const rows = [
@@ -179,7 +180,7 @@ const Game = ({ defaultUserObj, loggedIn, toggleLogin }) => {
   const [currentWord, setCurrentWord] = useState(testWordsList[user.gameIndex]);
   const [currentGuessIndex, setCurrentGuessIndex] = useState(0);
   const [currentAttempt, setCurrentAttempt] = useState(1);
-  const [modalHidden, setModalHidden] = useState(true);
+  const [modalHidden, setModalHidden] = useState(!loggedIn);
   const [isSettingsClosed, setIsSettingsClosed] = useState(true);
   const [isHelpClosed, setIsHelpClosed] = useState(existingUser);
   const [isAsideClosed, setIsAsideClosed] = useState(true);
@@ -372,7 +373,7 @@ const Game = ({ defaultUserObj, loggedIn, toggleLogin }) => {
           }
         }
         localStorage.setItem("mdc_wordle_user", JSON.stringify(user));
-        closeModal();
+        window.location.reload()
       }, 3500);
       // TO DO PATCH USER OR REDIRECT TO LOGIN
     } else if (currentAttempt === 6) {

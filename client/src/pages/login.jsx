@@ -33,6 +33,12 @@ const Login = ({ setLoggedIn, loggedIn, toggleLogin }) => {
     });
   }
 
+  function togglePasswordError() {
+    setIsPasswordError((prevIsPasswordError) => {
+      return !prevIsPasswordError;
+    });
+  }
+
   function toggleEmail() {
     setIsEmailPresent((prevIsEmailPresent) => {
       return !prevIsEmailPresent;
@@ -196,18 +202,18 @@ const Login = ({ setLoggedIn, loggedIn, toggleLogin }) => {
   function loginClick() {
     const password = passwordRef.current.value;
     if (retrievedUser.contactInfo.password !== password) {
-      console.log("password error");
+      togglePasswordError();
     } else {
       let currentStreak =
         user.games.length && user.games[0].won
           ? retrievedUser.currentStreak + 1
-          : retrievedUser.currentStreak
+          : retrievedUser.currentStreak;
       let maxStreak =
         currentStreak > retrievedUser.currentStreak ? currentStreak : 0;
-      
+
       let updatedRetrievedUser = {
         ...retrievedUser,
-        games: (user.games.length)
+        games: user.games.length
           ? [...retrievedUser.games, user.games[0]]
           : retrievedUser.games,
         gameIndex: retrievedUser.gameIndex + user.gameIndex,
@@ -271,9 +277,20 @@ const Login = ({ setLoggedIn, loggedIn, toggleLogin }) => {
                 <>
                   <div className="input-field">
                     <label htmlFor="password">Password</label>
-                    <input type="password" ref={passwordRef} />
+                    <input type="password" ref={passwordRef} className={isPasswordError ? "input-error" : ""}/>
+
+                    <a href="#">Forgot your password?</a>
+                    <span
+                      id="password-error"
+                      className={
+                        isPasswordError
+                          ? "password-error"
+                          : "password-error hidden"
+                      }
+                    >
+                      <img src={errorImg} alt="error icon" /> The email address or password you entered is incorrect. Please try again.
+                    </span>
                   </div>
-                  <a href="#">Forgot your password?</a>
                   <button className="login-button" onClick={loginClick}>
                     Log In
                   </button>
