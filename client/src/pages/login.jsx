@@ -204,6 +204,7 @@ const Login = ({ setLoggedIn, loggedIn, toggleLogin }) => {
     if (retrievedUser.contactInfo.password !== password) {
       togglePasswordError();
     } else {
+      debugger;
       let currentStreak =
         user.games.length && user.games[0].won
           ? retrievedUser.currentStreak + 1
@@ -214,12 +215,14 @@ const Login = ({ setLoggedIn, loggedIn, toggleLogin }) => {
       let updatedRetrievedUser = {
         ...retrievedUser,
         games: user.games.length
-          ? [...retrievedUser.games, user.games[0]]
+          ? [...retrievedUser.games, ...user.games]
           : retrievedUser.games,
         gameIndex: retrievedUser.gameIndex + user.gameIndex,
         currentStreak: currentStreak,
         maxStreak: maxStreak,
       };
+
+      debugger;
 
       localStorage.setItem(
         "mdc_wordle_user",
