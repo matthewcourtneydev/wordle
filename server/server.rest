@@ -1,0 +1,68 @@
+
+GET http://localhost:3001/games
+
+
+###
+
+POST http://localhost:3001/games
+Content-Type: application/json
+
+{
+    "won": true,
+    "totalGuesses": 2,
+    "guesses": [
+        [
+            {
+                "letter": "H",
+                "isCorrect": "correct"
+            },
+            {
+                "letter": "O",
+                "isCorrect": "almost"
+            },
+            {
+                "letter": "L",
+                "isCorrect": "correct"
+            },
+            {
+                "letter": "L",
+                "isCorrect": "correct"
+            },
+            {
+                "letter": "Y",
+                "isCorrect": "wrong"
+            }
+        ],
+        [
+            {
+                "letter": "H",
+                "isCorrect": "correct"
+            },
+            {
+                "letter": "E",
+                "isCorrect": "correct"
+            },
+            {
+                "letter": "L",
+                "isCorrect": "correct"
+            },
+            {
+                "letter": "L",
+                "isCorrect": "correct"
+            },
+            {
+                "letter": "O",
+                "isCorrect": "correct"
+            }
+        ]
+    ],
+    "word": [
+        "H",
+        "E",
+        "L",
+        "L",
+        "O"
+    ],
+    "hardMode": true
+}
+
